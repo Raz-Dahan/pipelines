@@ -1,0 +1,38 @@
+<html>
+
+<head>
+  <style type="text/css">
+    body {
+      background: #E4F0AB;
+      color: black;
+    }
+
+    div.container {
+      max-width: 500px;
+      margin: 100px auto;
+      border: 20px solid #A9BC4F;
+      padding: 10px;
+      text-align: center;
+    }
+
+    h4 {
+      text-transform: uppercase;
+    }
+    
+    p.count {
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h4>Alpaca Gif of the day</h4>
+    <img src="{{url}}" />
+    <p><small>Courtesy: <a href="https://giphy.com/explore/alpaca">Buzzfeed</a></small></p>
+    <p class="count">Entrance Count: {{ count }}</p>
+  </div>
+</body>
+
+</html>
