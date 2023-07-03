@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Change the path to your pipeline
+Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
+# Change the key to your aws rsa key pair
+RSA_Key="raz-key.pem"
+
 usage() {
   echo "Usage: $0 [--test] INSTANCE_IP DOCKER_BUILD"
   echo "Options:"
@@ -31,10 +36,6 @@ fi
 
 INSTANCE_IP=$1
 DOCKER_BUILD=$2
-# Change the path to your pipeline
-Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
-# Change the key to your aws rsa key pair
-RSA_Key="raz-key.pem"
 
 # Dependencies and Deployment
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
