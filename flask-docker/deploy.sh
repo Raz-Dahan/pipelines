@@ -38,10 +38,10 @@ INSTANCE_IP=$1
 DOCKER_BUILD=$2
 
 # Dependencies and Deployment
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/"${RSA_Key}" ec2-user@"${INSTANCE_IP}" "
 sudo yum update -y
 sudo yum install docker -y
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-\$(uname -s)-\$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
@@ -58,11 +58,11 @@ fi
 "
 
 echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/"${RSA_Key}" /var/lib/jenkins/workspace/"${Pipeline_Path}"/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/"${Pipeline_Path}"/alpaca-flask/get-ver.sh ec2-user@"${INSTANCE_IP}":/home/ec2-user
 
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/"${RSA_Key}" ec2-user@"${INSTANCE_IP}" "
 echo 'Pulling image from Docker Hub to instance...'
-sudo docker pull ${DOCKER_BUILD}
+sudo docker pull "${DOCKER_BUILD}"
 echo 'Getting .env file...'
 /bin/bash get-ver.sh
 echo 'Running the docker compose...'
@@ -70,7 +70,7 @@ sudo docker-compose up -d
 "
 
 # Run tests if the flag requested
-if [ "$run_tests_flag" = true ]; then
+if [ "${run_tests_flag}" = true ]; then
   echo 'Running tests...'
   run_tests
 fi
