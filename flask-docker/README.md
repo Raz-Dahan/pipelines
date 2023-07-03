@@ -8,7 +8,7 @@ Before running this project, please ensure that you have the following:
 
 - Jenkins and Docker installed on your server (Ubuntu).
 - Jenkins user added to the Docker group.
-- AWS CLI configured with the Jenkins user.
+- AWS CLI configured and do Docker login with the Jenkins user.
 - An EC2 instance with the `platform:production` tag.
 - An EC2 instance with the `platform:test` tag.
 - Custom RSA key pairs for the instances, owned by the Jenkins user.
