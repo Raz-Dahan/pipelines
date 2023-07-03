@@ -22,7 +22,7 @@ pipeline {
             steps {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
-                dir('/var/lib/jenkins/workspace/Pipeline_Path/alpaca-flask/') {
+                dir('/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/') {
                     echo 'Building docker image...'
                     sh 'docker build -t ${App_Package} .'
                     echo 'Pushing to image Docker Hub...'
@@ -33,7 +33,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Testing on Test instance...'
-                sh '/bin/bash /var/lib/jenkins/workspace/Pipeline_Path/deploy.sh --test ${TEST_IP} ${App_Package}'
+                sh '/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/deploy.sh --test ${TEST_IP} ${App_Package}'
             }
         }
         stage ('Aprove') {
@@ -46,7 +46,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production instance...'
-                sh '/bin/bash /var/lib/jenkins/workspace/Pipeline_Path/deploy.sh ${PROD_IP} ${App_Package}'
+                sh '/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/deploy.sh ${PROD_IP} ${App_Package}'
             }   
         }
     }
