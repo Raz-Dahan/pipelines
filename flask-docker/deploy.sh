@@ -8,7 +8,7 @@ usage() {
 }
 
 run_tests() {
-  /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/tests.sh
+  /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/tests.sh
 }
 
 # command line options
@@ -53,7 +53,7 @@ fi
 "
 
 echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
 
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem ec2-user@${INSTANCE_IP} "
 echo 'Pulling image from Docker Hub to instance...'

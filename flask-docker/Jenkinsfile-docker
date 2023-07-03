@@ -19,8 +19,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Cloning from GitHub...'
-                sh 'git clone https://github.com/Raz-Dahan/flask-docker.git'
-                dir('/var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/alpaca-flask/') {
+                sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
+                dir('/var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/alpaca-flask/') {
                     echo 'Building docker image...'
                     sh 'docker build -t ${AppPackage} .'
                     echo 'Pushing to image Docker Hub...'
@@ -31,7 +31,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Testing on Test instance...'
-                sh '/bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/deploy.sh --test ${TEST_IP} ${AppPackage}'
+                sh '/bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/deploy.sh --test ${TEST_IP} ${AppPackage}'
             }
         }
         stage ('Aprove') {
@@ -44,7 +44,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production instance...'
-                sh '/bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/deploy.sh ${PROD_IP} ${AppPackage}'
+                sh '/bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/deploy.sh ${PROD_IP} ${AppPackage}'
             }   
         }
     }
