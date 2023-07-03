@@ -1,7 +1,10 @@
 pipeline {
     agent any
     environment {
-        AlpacaPackage = "AlpacaPackage${env.BUILD_NUMBER}.tar.gz"
+        App_Package = "App_Package${env.BUILD_NUMBER}.tar.gz"
+        Pipeline_Path = "flask-jenkins-pipeline/pipelines/flask-jenkins"
+        S3_url = "s3://raz-flask-artifacts"
+        RSA_Key = "raz-key.pem"
         TEST_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
         PROD_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=production --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
     }
@@ -18,17 +21,17 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo "Cloning from GitHub..."'
-                sh 'git clone https://github.com/Raz-Dahan/flask-project.git'
+                sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
                 sh 'echo "Packaging..."'
-                sh 'tar -czvf ${AlpacaPackage} flask-project'
+                sh 'tar -czvf ${App_Package} pipelines/flask-jenkins'
                 sh 'echo "Pushing to S3..."'
-                sh 'aws s3 cp ${AlpacaPackage} s3://raz-flask-artifacts'
+                sh 'aws s3 cp ${App_Package} ${S3_url}'
                 sh 'echo "Making sure that the last five build packages on S3..."'
                 script {
-                    def objectsNum = sh(script: 'aws s3 ls s3://raz-flask-artifacts --recursive | wc -l', returnStdout: true).trim().toInteger()
+                    def objectsNum = sh(script: 'aws s3 ls ${S3_url} --recursive | wc -l', returnStdout: true).trim().toInteger()
                     if (objectsNum > 5) {
-                        def oldestObject = sh(script: 'aws s3 ls s3://raz-flask-artifacts --recursive 2> /dev/null | head -n 1 | awk \'{print $NF}\'', returnStdout: true).trim()
-                        sh "aws s3 rm s3://raz-flask-artifacts/${oldestObject}"
+                        def oldestObject = sh(script: 'aws s3 ls ${S3_url} --recursive 2> /dev/null | head -n 1 | awk \'{print $NF}\'', returnStdout: true).trim()
+                        sh "aws s3 rm ${S3_url}/${oldestObject}"
                     }
                 }
             }
@@ -37,17 +40,17 @@ pipeline {
             steps {
                 script {
                     sh 'echo "Copying S3 object to EC2..."'
-                    sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/raz-key.pem ec2-user@${TEST_IP} "aws s3 cp s3://raz-flask-artifacts/${AlpacaPackage} /home/ec2-user/${AlpacaPackage}"'
+                    sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${TEST_IP} "aws s3 cp ${S3_url}/${App_Package} /home/ec2-user/${App_Package}"'
                     sh 'echo "Unpacking and start the flask..."'
                     sh """ 
-                    ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/raz-key.pem ec2-user@${TEST_IP} '
-                    tar -xvf /home/ec2-user/${AlpacaPackage}
-                    rm -r ${AlpacaPackage}
-                    /bin/bash ./flask-project/deploy.sh
+                    ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${TEST_IP} '
+                    tar -xvf /home/ec2-user/${App_Package}
+                    rm -r ${App_Package}
+                    /bin/bash ./flask-jenkins/deploy.sh
                     '
                     """
                     sh 'echo "Running tests..."'
-                    sh '/bin/bash "/var/lib/jenkins/workspace/flask pipeline/flask-project/tests.sh"'
+                    sh '/bin/bash "/var/lib/jenkins/workspace/${Pipeline_Path}/tests.sh"'
                 }
             }
         }
@@ -61,13 +64,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'echo "Copying S3 object to ec2..."'
-                sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/raz-key.pem ec2-user@${PROD_IP} "aws s3 cp s3://raz-flask-artifacts/${AlpacaPackage} /home/ec2-user/${AlpacaPackage}"'
+                sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} "aws s3 cp ${S3_url}/${App_Package} /home/ec2-user/${App_Package}"'
                 sh 'echo "Unpacking and start the flask..."'
                 sh """ 
-                ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/raz-key.pem ec2-user@${PROD_IP} '
-                tar -xvf /home/ec2-user/${AlpacaPackage}
-                rm -r ${AlpacaPackage}
-                /bin/bash ./flask-project/deploy.sh
+                ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} '
+                tar -xvf /home/ec2-user/${App_Package}
+                rm -r ${App_Package}
+                /bin/bash ./flask-jenkins/deploy.sh
                 '
                 """
             }

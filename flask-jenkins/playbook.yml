@@ -13,18 +13,18 @@
 
     - name: Change directory
       become: true
-      command: cd /home/ec2-user/flask-project/alpaca-flask/
+      command: cd /home/ec2-user/flask-jenkins/alpaca-flask/
       tags: cd
 
     - name: Install Python dependencies
       become: true
       pip:
-        requirements: /home/ec2-user/flask-project/alpaca-flask/requirements.txt
+        requirements: /home/ec2-user/flask-jenkins/alpaca-flask/requirements.txt
       tags: pip
 
     - name: Set executable permissions for playbook
       file:
-        path: /home/ec2-user/flask-project/alpaca-flask/app.py
+        path: /home/ec2-user/flask-jenkins/alpaca-flask/app.py
         mode: ugo+rx
       become: true
 
@@ -38,7 +38,7 @@
 
           [Service]
           User=root
-          WorkingDirectory=/home/ec2-user/flask-project/alpaca-flask
+          WorkingDirectory=/home/ec2-user/flask-jenkins/alpaca-flask
           ExecStart=/usr/local/bin/flask run --host=0.0.0.0
           Restart=always
 
