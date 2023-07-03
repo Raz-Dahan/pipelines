@@ -46,7 +46,7 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${TEST_IP} '
                     tar -xvf /home/ec2-user/${App_Package}
                     rm -r ${App_Package}
-                    /bin/bash ./flask-jenkins/deploy.sh
+                    /bin/bash ./pipelines/flask-jenkins/deploy.sh
                     '
                     """
                     sh 'echo "Running tests..."'
@@ -70,7 +70,7 @@ pipeline {
                 ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} '
                 tar -xvf /home/ec2-user/${App_Package}
                 rm -r ${App_Package}
-                /bin/bash ./flask-jenkins/deploy.sh
+                /bin/bash ./pipelines/flask-jenkins/deploy.sh
                 '
                 """
             }
