@@ -13,7 +13,7 @@ usage() {
 }
 
 run_tests() {
-  /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/tests.sh
+  /bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/tests.sh
 }
 
 # command line options
@@ -38,7 +38,7 @@ INSTANCE_IP=$1
 DOCKER_BUILD=$2
 
 # Dependencies and Deployment
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem ec2-user@${INSTANCE_IP} "
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 sudo yum update -y
 sudo yum install docker -y
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -58,9 +58,9 @@ fi
 "
 
 echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
 
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem ec2-user@${INSTANCE_IP} "
+ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 echo 'Pulling image from Docker Hub to instance...'
 sudo docker pull ${DOCKER_BUILD}
 echo 'Getting .env file...'
