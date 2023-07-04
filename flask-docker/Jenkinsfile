@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Deploying and Testing on Test instance...'
+                echo 'Deploying and Running tests on Test instance...'
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/deploy.sh --test ${TEST_IP} ${App_Package}"
             }
         }
