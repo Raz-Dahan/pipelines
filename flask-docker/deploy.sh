@@ -41,10 +41,10 @@ DOCKER_BUILD=$2
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 sudo yum update -y
 sudo yum install docker -y
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 echo 'Stopping and removing existing Docker containers...'
 sudo docker stop \$(sudo docker ps -aq) && sudo docker rm \$(sudo docker ps -aq)
 echo 'Removing images if there are more than 5...'
@@ -58,7 +58,7 @@ fi
 "
 
 echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
 
 # Deployment
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
