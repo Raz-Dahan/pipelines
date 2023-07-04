@@ -8,8 +8,6 @@ services:
       - '6379:6379'
 
   flask:
-    env_file:
-      - ver.env
     image: razdahan31/flask-docker:${VER}
     container_name: flask
     restart: always
