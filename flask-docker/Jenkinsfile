@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        // Change the app package to your DOcker Hub repo
         App_Package = "razdahan31/flask-docker:v1.${env.BUILD_NUMBER}"
         // Change the path to your pipeline
         Pipeline_Path = "flask-docker-pipeline/pipelines/flask-docker"
@@ -22,6 +23,7 @@ pipeline {
             steps {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
+                // Change the dir to your app
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/") {
                     echo 'Building docker image...'
                     sh "docker build -t ${App_Package} ."
@@ -40,7 +42,7 @@ pipeline {
             steps {
                 echo 'Waiting for aproval...'
                 // For auto aproval add "//" before input line, for manual aproval remove "//" from input line
-                // input 'Do you want to deploy project to production?'
+                // input 'Do you want to deploy project on production servers?'
             }
         }
         stage('Deploy') {
