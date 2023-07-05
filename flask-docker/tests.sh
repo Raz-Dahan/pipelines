@@ -12,8 +12,7 @@ else
 fi
 
 # Test if Redis database responding
-### get dev null in ()
-db_respone=$(ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem ec2-user@${INSTANCE_IP} "sudo docker exec redis sh -c 'redis-cli ping'") &> /dev/null
+db_respone=$(ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/raz-key.pem ec2-user@${INSTANCE_IP} "sudo docker exec redis sh -c 'redis-cli ping'")
 
 if [[ $db_respone == 'PONG' ]]; then
     echo "Redis database returned PONG. Test passed!"
