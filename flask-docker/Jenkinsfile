@@ -42,6 +42,7 @@ pipeline {
         }
         stage('Docker Hub version control') {
             steps{
+                sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
             }
         }
