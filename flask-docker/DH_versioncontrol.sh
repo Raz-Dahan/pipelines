@@ -8,7 +8,7 @@ TAGS_JSON=$(curl -sX GET https://registry.hub.docker.com/v2/repositories/razdaha
 TAGS_SUM=$(echo $TAGS_JSON | wc -w)
 HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"razdahan31\", \"password\": \"Raz324831890\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
 
-if [[ $TAGS_SUM -gt 9 ]]; then
+if [[ $TAGS_SUM -gt 10 ]]; then
   OLDEST_TAG=$(echo $TAGS_JSON | awk '{print $NF}')
   curl -i -X DELETE \
   -H "Accept: application/json" \
