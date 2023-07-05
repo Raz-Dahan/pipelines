@@ -11,7 +11,8 @@ Before running this project, please ensure that you have the following:
 
 - Jenkins and Docker installed on your server (Ubuntu).
 - Jenkins user added to the Docker group.
-- Perform `aws configure` and `docker login` with the Jenkins user.
+- Perform `aws configure` with the Jenkins user.
+- Perform `docker login -u <user>` with Docker Hub PAT as password with the Jenkins user.
 - An EC2 instance with the `platform:production` tag.
 - An EC2 instance with the `platform:test` tag.
 - RSA key pairs for the instances located at `/var/lib/jenkins`, owned by the Jenkins user.
