@@ -39,7 +39,7 @@
           [Service]
           User=root
           WorkingDirectory=/home/ec2-user/pipelines/flask-jenkins/crypto-flask
-          ExecStart=/usr/local/bin/flask run --host=0.0.0.0
+          ExecStart=/usr/local/bin/flask run --host=0.0.0.0 --port=80
           Restart=always
 
           [Install]

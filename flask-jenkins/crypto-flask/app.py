@@ -19,4 +19,4 @@ def index():
     return render_template('index.html', bitcoin_price=bitcoin_price, ethereum_price=ethereum_price, litecoin_price=litecoin_price)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=80)
+    app.run(debug=True,)
