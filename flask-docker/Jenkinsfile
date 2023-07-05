@@ -27,6 +27,7 @@ pipeline {
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
                 // Change the dir to your app
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/") {
+                    sh "cp /var/lib/jenkins/.env ."
                     echo 'Building docker image...'
                     sh "docker build -t ${App_Package} ."
                     echo 'Pushing to image Docker Hub...'
