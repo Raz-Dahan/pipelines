@@ -41,8 +41,9 @@ pipeline {
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/deploy.sh --test ${TEST_IP} ${App_Package}"
             }
         }
-        stage('Docker Hub version control') {
+        stage('Docker tag cleanup') {
             steps{
+                echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
             }
