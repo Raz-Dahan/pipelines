@@ -2,7 +2,7 @@
 INSTANCE_IP=$(aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text)
 
 # Test the http status
-http_response=$(curl -s -o /dev/null -w "%{http_code}" ${INSTANCE_IP}:5000)
+http_response=$(curl -s -o /dev/null -w "%{http_code}" ${INSTANCE_IP}:80)
 
 if [[ $http_response == 200 ]]; then
     echo "Flask app returned a 200 status code. Test passed!"
