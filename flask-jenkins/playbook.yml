@@ -57,12 +57,12 @@
 
 - name: Start Flask service
   hosts: localhost
-  become: true
+  gather_facts: false
   tasks:
     - name: Start Flask service
+      become: true
       systemd:
         name: flask.service
         state: started
         enabled: yes
-      notify: Restart Flask Service
       tags: service
