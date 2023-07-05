@@ -1,4 +1,3 @@
----
 - name: Setup Flask Application
   hosts: localhost
   gather_facts: false
@@ -23,10 +22,11 @@
       tags: pip
 
     - name: Set executable permissions for playbook
+      become: true
       file:
         path: /home/ec2-user/pipelines/flask-jenkins/crypto-flask/app.py
         mode: ugo+rx
-      become: true
+      tags: permissions
 
     - name: Copy Flask service file
       become: true
@@ -48,14 +48,6 @@
       notify: Restart Flask Service
       tags: service
 
-    - name: Start Flask service
-      become: true
-      systemd:
-        name: flask.service
-        state: started
-        enabled: yes
-      tags: service
-
   handlers:
     - name: Restart Flask Service
       become: true
@@ -63,17 +55,14 @@
         name: flask.service
         state: restarted
 
-    - name: Reload Systemd daemon
-      become: true
-      shell: systemctl daemon-reload
-      changed_when: false
-      ignore_errors: true
-      tags: service-reload
-
-    - name: Start Flask service (Retry)
-      become: true
+- name: Start Flask service
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Start Flask service
       systemd:
         name: flask.service
         state: started
         enabled: yes
-      tags: service-restart
+      notify: Restart Flask Service
+      tags: service
