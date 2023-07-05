@@ -3,7 +3,7 @@
 Welcome! This project focuses on continuous integration and continuous deployment using Jenkins and Docker. It includes a Flask application, a Jenkinsfile for build, test, approval, and deploy stages, as well as scripts for deployment and testing.
 
 - This project is designed so that anyone can use it. You just need to perform all the preparations and modify the variable names to suit your needs.
-- Notice the flask runs on port 80, change if you need.
+- Notice the flask runs on port 80, change it if you need.
 
 ## Prerequisites
 
