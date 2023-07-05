@@ -40,6 +40,11 @@ pipeline {
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/deploy.sh --test ${TEST_IP} ${App_Package}"
             }
         }
+        stage('Docker Hub version control') {
+            steps{
+                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
+            }
+        }
         stage ('Aprove') {
             steps {
                 echo 'Waiting for aproval...'
