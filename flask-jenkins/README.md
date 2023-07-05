@@ -1,6 +1,6 @@
 # Flask Project
 
-Welcome! This project utilizes Flask and Crypto API to display cryptocurrencies of Bitcoin Etherium and Litecoin. 
+Welcome! This project utilizes Flask and Crypto API to display cryptocurrencies of Bitcoin Ethereum and Litecoin. 
 The repository includes the necessary files to set up the project and run it as CI/CD pipeline on EC2 instances using Jenkins and Ansible.
 
 ## Prerequisites
