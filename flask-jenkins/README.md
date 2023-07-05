@@ -1,6 +1,6 @@
 # Flask Project
 
-Welcome! This project utilizes Flask and Alpaca API to display a random Alpaca GIF of the day every. 
+Welcome! This project utilizes Flask and Crypto API to display cryptocurrencies of Bitcoin Etherium and Litecoin. 
 The repository includes the necessary files to set up the project and run it as CI/CD pipeline on EC2 instances using Jenkins and Ansible.
 
 ## Prerequisites
@@ -46,11 +46,9 @@ Once you have completed the setup, you can run the Flask project using the follo
 
 1. Build the project by running the Jenkins pipeline job.
 
-2. The pipeline will deploy the Flask application on the EC2 instances. The production instance will serve the website with the Alpaca GIF of the day.
+2. The pipeline will deploy the Flask application on the EC2 instances. The production instance will serve the website with the crypto coins currencies.
 
 3. Access the website by entering the production instance's public IP address in your web browser.
-
-4. Every time you refresh the website, a new random Alpaca GIF of the day will be displayed.
 
 The project keeps track of the last 5 builds in an S3 bucket.
 
@@ -70,7 +68,7 @@ If you wish to contribute to this project, please follow the standard GitHub wor
 
 ## Acknowledgements
 
-- The project uses GIFs from the GIPHY website. Visit [GIPHY](https://giphy.com/) to explore a wide range of GIFs for your projects.
+- The project uses API from the CoinGecko website. Visit [CoinGecko](https://www.coingecko.com/) to explore a wide range of Crypto information and marketplace.
 - Thanks to the Flask and Jenkins communities for their excellent tools and documentation.
 
 ## Contact
