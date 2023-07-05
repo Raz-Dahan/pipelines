@@ -2,7 +2,9 @@ pipeline {
     agent any
     environment {
         // Change the app package to your DOcker Hub repo
-        App_Package = "razdahan31/flask-docker:v1.${env.BUILD_NUMBER}"
+        Repository = "razdahan31/flask-docker"
+        Tag_Name = "v1.${env.BUILD_NUMBER}"
+        App_Package = "$Repository:$Tag_Name"
         // Change the path to your pipeline
         Pipeline_Path = "flask-docker-pipeline/pipelines/flask-docker"
         TEST_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
