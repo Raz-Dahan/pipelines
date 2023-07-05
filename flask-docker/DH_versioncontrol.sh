@@ -1,19 +1,21 @@
 #!/bin/bash
 
-if [[ -f .env ]]; then
-  export $(cat .env | grep -v '^#' | xargs)
+REPOSITORY=$1
+USER=$(echo "$REPOSITORY" | cut -d '/' -f1)
+REPO=$(echo "$REPOSITORY" | cut -d '/' -f2)
+
+TAGS_JSON=$(curl -sX GET https://registry.hub.docker.com/v2/repositories/razdahan31/flask-docker/tags?page_size=100 | jq -r '.results[].name')
+TAGS_SUM=$(echo $TAGS_JSON | wc -w)
+HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"razdahan31\", \"password\": \"Raz324831890\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
+
+if [[ $TAGS_SUM -gt 9 ]]; then
+  OLDEST_TAG=$(echo $TAGS_JSON | awk '{print $NF}')
+  curl -i -X DELETE \
+  -H "Accept: application/json" \
+  -H "Authorization: JWT $HUB_TOKEN" \
+  https://hub.docker.com/v2/namespaces/$USER/repositories/$REPO/tags/$OLDEST_TAG
+  echo "The tag $OLDEST_TAG removed successfully"
+else
+  echo "There are no more than 10 tags"
 fi
 
-repository=$1
-
-tagsJson=$(curl -sX GET -u "${DOCKER_USERNAME}:${DOCKER_PASSWORD}" "https://registry.hub.docker.com/v2/repositories/${repository}/tags?page_size=100" | jq -r '.results[].name')
-
-readarray -t tags <<< "$tagsJson"
-
-if [ ${#tags[@]} -gt 9 ]; then
-  sortedTags=($(printf '%s\n' "${tags[@]}" | sort))
-  oldestTag=${sortedTags[0]}
-  digest=$(curl -sI -u "${DOCKER_USERNAME}:${DOCKER_PASSWORD}" -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' "https://registry.hub.docker.com/v2/${repository}/manifests/${oldestTag}" | awk '/Docker-Content-Digest/ {print $2}' | tr -d $'\r')
-  curl -X DELETE -u "${DOCKER_USERNAME}:${DOCKER_PASSWORD}" "https://registry.hub.docker.com/v2/${repository}/manifests/${digest}"
-  echo "Image $repository:$oldestTag removed from Docker Hub"
-fi
