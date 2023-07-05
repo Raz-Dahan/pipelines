@@ -15,8 +15,12 @@ Before running this project, please ensure that you have the following:
 - Perform `docker login -u <user>` with Docker Hub PAT as password with the Jenkins user.
 - An EC2 instance with the `platform:production` tag.
 - An EC2 instance with the `platform:test` tag.
-- RSA key pairs for the instances located at `/var/lib/jenkins`, owned by the Jenkins user.
-- .env file with Docker Hub username and password (also the API key if needed) located at `/var/lib/jenkins`.
+- ADD .env file to your jenkins server at `/var/lib/jenkins`, configured as this:
+   ```
+   API_KEY=<your API key>   # Remove this line if you're not using an API in your Flask application
+   DOCKER_USERNAME=<your Docker Hub username>
+   DOCKER_PASSWORD=<your Docker Hub password>
+   ```
 
 ## Getting Started
 
