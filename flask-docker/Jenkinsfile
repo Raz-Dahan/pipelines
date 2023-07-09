@@ -19,6 +19,8 @@ pipeline {
             steps {
                 echo 'Performing cleanup on workspace...'
                 sh 'rm -rf *'
+                echo 'performing cleanup on local docker images...'
+                sh 'docker rmi $(docker images -q razdahan31/flask-docker:*)'
             }
         }
         stage('Build') {
