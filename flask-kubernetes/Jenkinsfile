@@ -22,7 +22,7 @@ pipeline {
                 echo 'Performing cleanup on workspace...'
                 sh 'rm -rf *'
                 echo 'performing cleanup on local docker images...'
-                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images razdahan31/flask-docker --format \"{{.Repository}}:{{.Tag}}\");fi"
+                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\");fi"
             }
         }
         stage('Build') {
