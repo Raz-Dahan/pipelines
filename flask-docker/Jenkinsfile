@@ -48,7 +48,7 @@ pipeline {
                 echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/") {
-                    sh "export $(cat .env | xargs)"
+                    sh "export \$(cat .env | xargs)"
                 }
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
             }
