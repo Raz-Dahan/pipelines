@@ -1,0 +1,19 @@
+version: '3'
+services:
+  redis:
+    image: redislabs/redismod
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+
+  flask:
+    image: razdahan31/flask-docker:${VER}
+    container_name: flask
+    restart: always
+    ports:
+      - '80:5000'
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
