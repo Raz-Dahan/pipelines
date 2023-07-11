@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Change the path to your pipeline
+Pipeline_Path="k8s-pipeline/pipelines/flask-kubernetes"
+
+# Flag's functions
 usage() {
   echo "Usage: $0 [--test] INSTANCE_IP DOCKER_BUILD"
   echo "Options:"
@@ -8,7 +12,7 @@ usage() {
 }
 
 run_tests() {
-  /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/scripts/tests.sh
+  /bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/tests.sh
 }
 
 # command line options
@@ -29,8 +33,7 @@ if [ $# -lt 2 ]; then
   usage
 fi
 
-# Change the path to your pipeline
-Pipeline_Path="k8s-pipeline/pipelines/flask-docker"
+
 # Change the key to your aws rsa key pair
 RSA_Key="raz-key.pem"
 
