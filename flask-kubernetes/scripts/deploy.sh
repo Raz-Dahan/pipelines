@@ -30,7 +30,7 @@ if [ $# -lt 2 ]; then
 fi
 
 # Change the path to your pipeline
-Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
+Pipeline_Path="k8s-pipeline/pipelines/flask-docker"
 # Change the key to your aws rsa key pair
 RSA_Key="raz-key.pem"
 
