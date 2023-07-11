@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // Change the app package to your Docker Hub repo
-        Repository = "razdahan31/flask-docker"
+        Repository = "razdahan31/flask-k8s"
         Tag_Name = "v1.${env.BUILD_NUMBER}"
         App_Package = "$Repository:$Tag_Name"
         // Change the path to your pipeline
