@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Change the path to your pipeline
+Pipeline_Path="k8s-pipeline/pipelines/flask-kubernetes"
+
+# Flag's functions
 usage() {
   echo "Usage: $0 [--test] INSTANCE_IP DOCKER_BUILD"
   echo "Options:"
@@ -8,7 +12,7 @@ usage() {
 }
 
 run_tests() {
-  /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/pipelines/flask-docker/tests.sh
+  /bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/tests.sh
 }
 
 # command line options
@@ -29,8 +33,7 @@ if [ $# -lt 2 ]; then
   usage
 fi
 
-# Change the path to your pipeline
-Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
+
 # Change the key to your aws rsa key pair
 RSA_Key="raz-key.pem"
 
@@ -58,12 +61,12 @@ fi
 "
 
 echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
 
 # Deployment
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 echo 'Pulling image from Docker Hub to instance...'
-sudo docker pull \${DOCKER_BUILD}
+sudo docker pull ${DOCKER_BUILD}
 echo 'Getting .env file...'
 /bin/bash get-ver.sh
 echo 'Running the docker compose...'
