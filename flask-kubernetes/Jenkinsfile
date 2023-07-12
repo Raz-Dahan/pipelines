@@ -80,6 +80,6 @@ pipeline {
 }
 
 def readEnvVarsFromFile(filePath) {
-    def props = readProperties file: filePath
+    def props = readFile file: filePath
     return props
 }
