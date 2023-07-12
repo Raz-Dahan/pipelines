@@ -66,7 +66,7 @@ scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenk
 # Deployment
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 echo 'Pulling image from Docker Hub to instance...'
-sudo docker pull \${DOCKER_BUILD}
+sudo docker pull ${DOCKER_BUILD}
 echo 'Getting .env file...'
 /bin/bash get-ver.sh
 echo 'Running the docker compose...'
