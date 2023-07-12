@@ -40,6 +40,11 @@ Header styling
     height: 90%;
 }
 
+.count {
+    color: #fff;
+    margin-left: 1rem;
+}
+
 /* ----------------------------------------------
 Todays image styling
 */

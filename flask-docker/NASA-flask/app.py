@@ -3,8 +3,10 @@ from datetime import date
 import requests
 import os
 from dotenv import load_dotenv
+from redis import Redis
 
 load_dotenv()
+redis = Redis(host='redis', port=6379)
 
 app = Flask(__name__)
 
