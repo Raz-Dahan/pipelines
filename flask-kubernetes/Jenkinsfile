@@ -50,7 +50,9 @@ pipeline {
                 echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}") {
+                    sh "ls -la"
                     sh "export \$(cat .env | xargs)"
+                    sh "env"
                     sh "/bin/bash DH_versioncontrol.sh ${Repository}"
                 }
             }
