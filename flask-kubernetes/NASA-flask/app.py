@@ -15,24 +15,15 @@ def index():
     logo_url = "nasaLogo.png"
     icon_url = "nasaICON.png"
     today_data = get_nasa_image(date.today().strftime("%Y-%m-%d"))
+    redis.hincrby('entrance_count', 'total', 1)
+    count = redis.hget('entrance_count', 'total').decode('utf-8')
 
     if request.method == 'POST':
         request_date = request.form['date']
         image_url = get_nasa_image(request_date)['url']
-        return render_template('index.html', image_url=image_url, today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url)
+        return render_template('index.html', image_url=image_url, today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url, count=int(count))
     else:
-        return render_template('index.html', today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url) 
-#     logo_url = "nasaLogo.png"
-#     if request.method == 'POST':
-#         request_date = request.form['date']
-#         image_url = get_nasa_image(request_date)
-#         today_image_url = get_nasa_image(date.today().strftime("%Y-%m-%d"))
-#         today_describe_url = get_nasa_image(date.today().strftime("%Y-%m-%d"))
-#         return render_template('index.html', image_url=image_url, today_image_url=today_image_url['url'],today_describe_url=today_describe_url['title'], logo_url=logo_url)
-#     else:
-#         today_image_url = get_nasa_image(date.today().strftime("%Y-%m-%d"))
-#         today_describe_url = get_nasa_image(date.today().strftime("%Y-%m-%d"))
-#         return render_template('index.html', today_image_url=today_image_url['url'],today_describe_url=today_describe_url['title'], logo_url=logo_url) 
+        return render_template('index.html', today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url, count=int(count)) 
 
 def get_nasa_image(date):
     secret_key = os.getenv('API_KEY')
