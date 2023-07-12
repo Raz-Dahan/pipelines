@@ -51,8 +51,8 @@ pipeline {
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}") {
                     sh "export \$(cat .env | xargs)"
+                    sh "/bin/bash DH_versioncontrol.sh ${Repository}"
                 }
-                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
             }
         }
         stage ('Aprove') {
