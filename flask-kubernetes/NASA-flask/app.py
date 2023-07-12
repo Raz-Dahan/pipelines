@@ -21,7 +21,7 @@ def index():
     if request.method == 'POST':
         request_date = request.form['date']
         image_url = get_nasa_image(request_date)['url']
-        return render_template('index.html', image_url=image_url, today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url, count=int(count))
+        return render_template('index.html', image_url=image_url, today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url,)
     else:
         return render_template('index.html', today_image_url=today_data['url'],today_describe_url=today_data['title'], logo_url=logo_url, icon_url=icon_url, count=int(count)) 
 
