@@ -13,7 +13,7 @@ pipeline {
         PROD_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=production --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
     }
     triggers {
-        // Checking for commits on github every minute 
+        // Checking for commits on GitHub every minute 
         pollSCM('*/1 * * * *')
     }
     stages {
@@ -21,8 +21,8 @@ pipeline {
             steps {
                 echo 'Performing cleanup on workspace...'
                 sh 'rm -rf *'
-                echo 'performing cleanup on local docker images...'
-                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\");fi"
+                echo 'Performing cleanup on local Docker images...'
+                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\"); fi"
             }
         }
         stage('Build') {
@@ -32,9 +32,9 @@ pipeline {
                 // Change the dir to your app
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/NASA-flask/") {
                     sh "cp /var/lib/jenkins/.env ."
-                    echo 'Building docker image...'
+                    echo 'Building Docker image...'
                     sh "docker build -t ${App_Package} ."
-                    echo 'Pushing to image Docker Hub...'
+                    echo 'Pushing to Docker Hub...'
                     sh "docker push ${App_Package}"
                 }
             }
@@ -46,29 +46,40 @@ pipeline {
             }
         }
         stage('Docker Hub cleanup') {
-            steps{
+            steps {
                 echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}") {
                     sh "ls -la"
-                    sh "export \$(cat .env | xargs)"
-                    sh "env"
-                    sh "/bin/bash DH_versioncontrol.sh ${Repository}"
+                    script {
+                        def envVars = readEnvVarsFromFile('.env')
+                        envVars.each { key, value ->
+                            env."${key}" = value
+                        }
+                        sh "env"
+                        sh "/bin/bash DH_versioncontrol.sh ${Repository}"
+                    }
                 }
             }
         }
-        stage ('Aprove') {
+        stage('Approve') {
             steps {
-                echo 'Waiting for aproval...'
-                // For auto aproval add "//" before input line, for manual aproval remove "//" from input line
-                // input 'Do you want to deploy project on production servers?'
+                echo 'Waiting for approval...'
+                // For auto-approval, add "//" before the input line.
+                // For manual approval, remove "//" from the input line.
+                // input 'Do you want to deploy the project on production servers?'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production instance...'
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh ${PROD_IP} ${App_Package}"
-            }   
+            }
         }
     }
+}
+
+def readEnvVarsFromFile(filePath) {
+    def props = readProperties file: filePath
+    return props
 }
