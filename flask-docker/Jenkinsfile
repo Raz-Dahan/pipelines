@@ -28,7 +28,7 @@ pipeline {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
                 // Change the dir to your app
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/") {
+                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/NASA-flask/") {
                     sh "cp /var/lib/jenkins/.env ."
                     echo 'Building docker image...'
                     sh "docker build -t ${App_Package} ."
@@ -47,7 +47,7 @@ pipeline {
             steps{
                 echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/alpaca-flask/") {
+                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/NASA-flask/") {
                     sh "export \$(cat .env | xargs)"
                 }
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
