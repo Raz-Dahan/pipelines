@@ -1,4 +1,5 @@
 #!/bin/bash
 NAME='VER='
-TAG=$(curl -s "https://hub.docker.com/v2/repositories/razdahan31/flask-docker/tags" | jq -r '.results[0].name')
+REPO='razdahan31/flask-k8s'
+TAG=$(curl -s "https://hub.docker.com/v2/repositories/${REPO}/tags" | jq -r '.results[0].name')
 echo $NAME$TAG > .env
