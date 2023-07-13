@@ -4,6 +4,8 @@ REPOSITORY=$1
 USER=$(echo "$REPOSITORY" | cut -d '/' -f1)
 REPO=$(echo "$REPOSITORY" | cut -d '/' -f2)
 
+export $(cat .env | xargs)
+
 TAGS_JSON=$(curl -sX GET https://registry.hub.docker.com/v2/repositories/$REPOSITORY/tags?page_size=100 | jq -r '.results[].name')
 TAGS_SUM=$(echo $TAGS_JSON | wc -w)
 HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"${DOCKER_USERNAME}\", \"password\": \"${DOCKER_PASSWORD}\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
