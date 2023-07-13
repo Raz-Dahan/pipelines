@@ -52,7 +52,6 @@ pipeline {
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/DH_versioncontrol.sh ${Repository}"
                 }
             }
-        }
         stage('Approve') {
             steps {
                 echo 'Waiting for approval...'
