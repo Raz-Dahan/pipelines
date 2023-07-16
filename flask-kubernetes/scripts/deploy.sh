@@ -20,3 +20,6 @@ if [[ "$GET_IMAGE_TAG" == "$VER" ]]; then
     exit 0
 fi
 
+env
+pwd
+ls -la

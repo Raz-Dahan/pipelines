@@ -51,8 +51,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying on Production instance...'
-                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh ${PROD_IP} ${App_Package}"
+                echo 'Deploying on Production Cluster...'
+                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh"
             }
         }
         stage('Docker Hub and local images cleanup') {
