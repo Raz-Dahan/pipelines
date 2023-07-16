@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: flask
-          image: razdahan31/flask-k8s:v1.63
+          image: razdahan31/flask-k8s:${VER}
           ports:
             - containerPort: 5000
 
