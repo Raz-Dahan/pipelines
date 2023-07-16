@@ -60,12 +60,10 @@ pipeline {
         stage('Docker Hub and local images cleanup') {
             steps {
                 echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
-                sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/") {
-                    sh "/bin/bash DH_versioncontrol.sh ${Repository}"
+                sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/"
+                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
+                    sh "/bin/bash DockerHub_VCS.sh ${Repository}"
                     }
-                echo 'Performing cleanup on local Docker images...'
-                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\"); fi"
             }
         }
     }

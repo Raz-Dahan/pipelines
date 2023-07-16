@@ -24,19 +24,12 @@ if ! command -v docker-compose &> /dev/null; then
 else
     echo 'Docker Compose is already installed.'
 fi
-echo 'Stopping and removing existing Docker containers...'
-sudo docker stop \$(sudo docker ps -aq) && sudo docker rm \$(sudo docker ps -aq)
-echo 'Removing images if there are more than 3...'
-IMAGES_SUM=\$(sudo docker images | tail -n +2 | wc -l)
-OLDEST_BUILD=\$(sudo docker images --no-trunc --format '{{.Repository}}:{{.Tag}}' | tail -n +2 | sort -V | head -n 1)
-if [ "\$IMAGES_SUM" -gt 3 ]; then
-    sudo docker rmi \"\$OLDEST_BUILD\"
-else
-    echo 'No need to delete the oldest build. Total image count is less than or equal to 3.'
-fi
+echo 'Setting up workspace...'
 git clone https://github.com/Raz-Dahan/pipelines.git
-echo 'Getting .env file...'
 cd /home/jenkins/pipelines/flask-kubernetes/
+echo 'Stopping and removing existing Docker containers...'
+sudo docker-compose down
+echo 'Getting .env file...'
 /bin/bash scripts/get-ver.sh
 echo 'Running the docker compose...'
 sudo docker-compose up -d
