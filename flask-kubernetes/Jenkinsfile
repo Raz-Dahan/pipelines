@@ -9,7 +9,6 @@ pipeline {
         Pipeline_Name = "k8s-pipeline"
         GitHub_Repo = "pipelines/flask-kubernetes"
         Pipeline_Path = "$Pipeline_Name/$GitHub_Repo"
-        TEST_IP = sh(script: "gcloud compute instances describe test --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'", returnStdout: true).trim()
     }
     triggers {
         // Checking for commits on GitHub every minute 
