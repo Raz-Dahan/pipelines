@@ -9,12 +9,11 @@ pipeline {
         Pipeline_Name = "k8s-pipeline"
         GitHub_Repo = "pipelines/flask-kubernetes"
         Pipeline_Path = "$Pipeline_Name/$GitHub_Repo"
-        TEST_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
-        PROD_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=production --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
+        TEST_IP = sh(script: "gcloud compute instances describe test --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'", returnStdout: true).trim()
     }
     triggers {
         // Checking for commits on GitHub every minute 
-        pollSCM('*/1 * * * *')
+        pollSCM('H * * * *')
     }
     stages {
         stage('Cleanup') {
@@ -42,7 +41,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Running tests on Test instance...'
-                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh --test ${TEST_IP} ${App_Package}"
+                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test_deploy.sh"
+                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/run_tests.sh ${TEST_IP}"
             }
         }
         stage('Docker Hub cleanup') {
