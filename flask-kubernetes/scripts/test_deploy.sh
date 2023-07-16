@@ -36,9 +36,10 @@ else
 fi
 git clone https://github.com/Raz-Dahan/pipelines.git
 echo 'Getting .env file...'
-/bin/bash pipelines/flask-kubernetes/scripts/get-ver.sh
+cd /home/jenkins/pipelines/flask-kubernetes/
+/bin/bash scripts/get-ver.sh
 echo 'Running the docker compose...'
-docker-compose -f pipelines/flask-kubernetes/docker-compose.yaml up -d
+sudo docker-compose up -d
 "
 
 # Execute commands in the SSH connection 
