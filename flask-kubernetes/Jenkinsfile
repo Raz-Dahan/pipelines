@@ -19,8 +19,6 @@ pipeline {
             steps {
                 echo 'Performing cleanup on workspace...'
                 sh 'rm -rf *'
-                echo 'Performing cleanup on local Docker images...'
-                sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\"); fi"
             }
         }
         stage('Build') {
@@ -44,16 +42,6 @@ pipeline {
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/run_tests.sh"
             }
         }
-        stage('Docker Hub cleanup') {
-            steps {
-                echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
-                sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/") {
-                    sh "ls -la"
-                    sh "/bin/bash DH_versioncontrol.sh ${Repository}"
-                    }
-                }
-            }
         stage('Approve') {
             steps {
                 echo 'Waiting for approval...'
@@ -66,6 +54,21 @@ pipeline {
             steps {
                 echo 'Deploying on Production instance...'
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh ${PROD_IP} ${App_Package}"
+            }
+        }
+    }
+    post {
+        always {
+            stage('Docker Hub and local images cleanup') {
+                steps {
+                    echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
+                    sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/"
+                    dir("/var/lib/jenkins/workspace/${Pipeline_Path}/") {
+                        sh "/bin/bash DH_versioncontrol.sh ${Repository}"
+                        }
+                    echo 'Performing cleanup on local Docker images...'
+                    sh "if docker images | grep '^${Repository} ' >/dev/null 2>&1; then docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\"); fi"
+                }
             }
         }
     }
