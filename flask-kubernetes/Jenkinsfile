@@ -38,8 +38,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Running tests on Test instance...'
-                // sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test_deploy.sh"
-                // sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/run_tests.sh"
                 sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test.sh"
             }
         }
