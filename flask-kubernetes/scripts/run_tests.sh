@@ -1,10 +1,10 @@
 #!/bin/bash
 
 INSTANCE_NAME="test"
-PROJECT="named-signal-392608"
+PROJECT_ID="named-signal-392608"
 ZONE="us-central1-a"
 
-INSTANCE_IP=$(gcloud compute instances describe $INSTANCE_NAME --zone=$ZONE --project=$PROJECT --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+INSTANCE_IP=$(gcloud compute instances describe $INSTANCE_NAME --zone=$ZONE --project=$PROJECT_ID --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 
 # Test the http status
 http_response=$(curl -s -o /dev/null -w "%{http_code}" ${INSTANCE_IP}:80)
@@ -17,7 +17,7 @@ else
 fi
 
 # Test if Redis database responding
-db_respone=$(gcloud compute ssh --project=$PROJECT --zone=$ZONE $INSTANCE_NAME --ssh-flag="-o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no" --command "sudo docker exec redis sh -c 'redis-cli ping'")
+db_respone=$(gcloud compute ssh --project=$PROJECT_ID --zone=$ZONE $INSTANCE_NAME --ssh-flag="-o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no" --command "sudo docker exec redis sh -c 'redis-cli ping'")
 
 if [[ $db_respone == 'PONG' ]]; then
     echo "Redis database returned PONG. Test passed!"
