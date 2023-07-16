@@ -38,7 +38,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Running tests on Test instance...'
-                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test.sh"
+                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test.sh"
             }
         }
         stage('Approve') {
@@ -52,15 +52,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production instance...'
-                sh "/bin/bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh ${PROD_IP} ${App_Package}"
+                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh ${PROD_IP} ${App_Package}"
             }
         }
         stage('Docker Hub and local images cleanup') {
             steps {
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
                     sh "cp /var/lib/jenkins/.env ."
-                    sh "/bin/bash DockerHub_VCS.sh ${Repository}"
-                    sh "/bin/bash DockerImages_VCS.sh ${Repository}"
+                    sh "bash DockerHub_VCS.sh ${Repository}"
+                    sh "bash DockerImages_VCS.sh ${Repository}"
                     }
             }
         }
