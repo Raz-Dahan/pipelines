@@ -11,7 +11,7 @@ pipeline {
         Pipeline_Path = "$Pipeline_Name/$GitHub_Repo"
     }
     triggers {
-        // Checking for commits on GitHub every minute 
+        // Checking for commits on GitHub every hour 
         pollSCM('H * * * *')
     }
     stages {
