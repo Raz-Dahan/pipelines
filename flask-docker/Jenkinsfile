@@ -13,7 +13,7 @@ pipeline {
         PROD_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=production --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
     }
     triggers {
-        // Checking for commits on GitHub every minute 
+        // Checking for commits on GitHub every hour 
         pollSCM('H * * * *')
     }
     stages {
