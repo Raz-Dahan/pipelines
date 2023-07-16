@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change the path to your pipeline
-Pipeline_Path="k8s-pipeline/pipelines/flask-kubernetes"
+Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
 
 # Flag's functions
 usage() {
