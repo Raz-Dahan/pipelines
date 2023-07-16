@@ -14,7 +14,7 @@ pipeline {
     }
     triggers {
         // Checking for commits on GitHub every minute 
-        pollSCM('*/1 * * * *')
+        pollSCM('H * * * *')
     }
     stages {
         stage('Cleanup') {
