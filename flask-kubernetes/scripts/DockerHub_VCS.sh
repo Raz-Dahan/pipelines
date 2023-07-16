@@ -10,6 +10,8 @@ TAGS_JSON=$(curl -sX GET https://registry.hub.docker.com/v2/repositories/$REPOSI
 TAGS_SUM=$(echo $TAGS_JSON | wc -w)
 HUB_TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d "{\"username\": \"${DOCKER_USERNAME}\", \"password\": \"${DOCKER_PASSWORD}\"}" https://hub.docker.com/v2/users/login/ | jq -r .token)
 
+echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
+
 if [[ $TAGS_SUM -gt 10 ]]; then
   OLDEST_TAG=$(echo $TAGS_JSON | awk '{print $NF}')
   curl -i -X DELETE \

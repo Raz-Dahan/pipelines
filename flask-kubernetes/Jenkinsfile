@@ -57,9 +57,8 @@ pipeline {
         }
         stage('Docker Hub and local images cleanup') {
             steps {
-                echo 'Remove oldest tag if there are more than 10 on Docker Hub...'
-                sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
+                    sh "cp /var/lib/jenkins/.env ."
                     sh "/bin/bash DockerHub_VCS.sh ${Repository}"
                     sh "/bin/bash DockerImages_VCS.sh ${Repository}"
                     }
