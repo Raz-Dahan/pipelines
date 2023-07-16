@@ -61,6 +61,7 @@ pipeline {
                 sh "cp /var/lib/jenkins/.env /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/"
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
                     sh "/bin/bash DockerHub_VCS.sh ${Repository}"
+                    sh "/bin/bash DockerImages_VCS.sh ${Repository}"
                     }
             }
         }
