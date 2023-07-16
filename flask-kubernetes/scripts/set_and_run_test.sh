@@ -45,6 +45,8 @@ sudo docker-compose up -d
 # Execute commands in the SSH connection 
 gcloud compute ssh --project=$PROJECT_ID --zone=$ZONE $INSTANCE_NAME --ssh-flag="-o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no" --command "$COMMANDS"
 
+echo 'Running tests...'
+
 # Get test instance's IP
 INSTANCE_IP=$(gcloud compute instances describe $INSTANCE_NAME --zone=$ZONE --project=$PROJECT_ID --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 
