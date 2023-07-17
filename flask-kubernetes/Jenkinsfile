@@ -58,9 +58,9 @@ pipeline {
         stage('Docker Hub and local images cleanup') {
             steps {
                 dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
-                    sh "cp /var/lib/jenkins/.env ."
-                    sh "bash DockerHub_VCS.sh ${Repository}"
-                    sh "bash DockerImages_VCS.sh ${Repository}"
+                    // sh "cp /var/lib/jenkins/.env ."
+                    // sh "bash DockerHub_VCS.sh ${Repository}"
+                    // sh "bash DockerImages_VCS.sh ${Repository}"
                 }
             }
         }
