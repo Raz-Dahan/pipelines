@@ -1,26 +1,38 @@
-# Docker CI/CD Project
+# CI/CD Project
 
-Welcome! This project focuses on continuous integration and continuous deployment using Jenkins and Docker. It includes a Flask application, a Jenkinsfile for build, test, approval, and deploy stages, as well as scripts for deployment and testing.
+Welcome! This project focuses on continuous integration and continuous deployment using Jenkins, Docker and Kubernetes.<br />
+It includes a Flask application, a Jenkinsfile for build, test, approval, and deploy stages, as well as scripts for deployment and testing.
 
 - This project is designed so that anyone can use it. You just need to perform all the preparations and modify the variable names to suit your needs.
-- Notice the flask runs on port 80, change it if you need.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Running the Project](#running-the-project)
+- [Contributing](#contributing)
+- [Acknowledgements](#acknowledgements)
+- [Contact](#contact)
 
 ## Prerequisites
 
 Before running this project, please ensure that you have the following:
 
-- Jenkins and Docker installed on your server (Ubuntu).
-- Jenkins user added to the Docker group.
-- Perform `aws configure` with the Jenkins user.
-- Perform `docker login -u <user>` with Docker Hub PAT as password with the Jenkins user.
-- An EC2 instance with the `platform:production` tag.
-- An EC2 instance with the `platform:test` tag.
+- Open Ubuntu server
+- install Jenkins, Docker, aws-cli, gcloud-cli
+- add jenkins user to docker group.
+- Perform `aws configure` with the jenkins user.
+- Perform `docker login -u <user>` with Docker Hub PAT as password with the jenkins user.
+- Perform `gcloud auth login <account>` with jenkins user.
+- A GCP GKE cluster.
+- An GCP GCE instance named "test".
 - ADD .env file to your jenkins server at `/var/lib/jenkins`, configured as this:
    ```
    API_KEY=<your API key>   # Remove this line if you're not using an API in your Flask application
    DOCKER_USERNAME=<your Docker Hub username>
    DOCKER_PASSWORD=<your Docker Hub password>
    ```
+- Note: not all variables are defined so make sure double check Jenkinsfile, deploy.sh, maifest.yaml and docker-compose.yml
 
 ## Getting Started
 
@@ -38,9 +50,7 @@ To get started with this project, please follow these steps:
 
 4. In the pipeline configuration, specify the Jenkinsfile from `https://github.com/Raz-Dahan/pipelines.git`.
 
-5. If the instance is based on Debian Linux add this at the beginning of get-ver.sh: `sudo apt install jq -y`.
-
-6. Customize the Jenkinsfile to enable/disable the approval stage based on your requirements.
+5. Customize the Jenkinsfile to enable/disable the approval stage based on your requirements.
 
 ## Running the Project
 
@@ -48,12 +58,13 @@ Once you have completed the setup, you can run the project using the following s
 
 1. Build and deploy the project by running the Jenkins pipeline job.
 
-2. The pipeline will build the Docker image, run tests, and deploy the Flask application and Redis database using Docker Compose.
-   - Notice that the pipeline keep the last 10 images on Docker Hub for versions control and the last five images on the instances for troubleshooting
+2. The pipeline will build the Docker image, run tests on a VM using Docker compose, and deploy the Flask application and Redis database on a cluster using Kubernetes.
 
-4. Access the Flask application by entering the public IP address of the production instance in your web browser.
+3. Access the Flask application by entering the public IP address of the Load balancer service in your web browser.
 
-5. Test the application's functionality, ensuring it meets the requirements.
+4. Test the application's functionality, ensuring it meets the requirements.
+
+- Notice that the pipeline keep the last 10 images on Docker Hub for versions control and the last five images on the instances for troubleshooting
 
 ## Contributing
 
@@ -71,7 +82,9 @@ If you wish to contribute to this project, please follow the standard GitHub wor
 
 ## Acknowledgements
 
-- Special thanks to the Jenkins and Docker communities for their fantastic tools and resources.
+- Special thanks to the Kubernetes, Jenkins and Docker communities for their fantastic tools and resources.
+
+- Special thank to Google on good trustable services and their great documentation.
 
 ## Contact
 
