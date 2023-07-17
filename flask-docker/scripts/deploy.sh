@@ -49,7 +49,7 @@ sudo systemctl start docker.service
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 echo 'Stopping and removing existing Docker containers...'
-sudo docker stop \$(sudo docker ps -aq) && sudo docker rm \$(sudo docker ps -aq)
+sudo docker-compose down
 echo 'Removing images if there are more than 5...'
 IMAGES_SUM=\$(sudo docker images | tail -n +2 | wc -l)
 OLDEST_BUILD=\$(sudo docker images --no-trunc --format '{{.Repository}}:{{.Tag}}' | tail -n +2 | sort -V | head -n 1)
