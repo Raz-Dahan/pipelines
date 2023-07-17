@@ -30,13 +30,14 @@ cd /home/jenkins/pipelines/flask-kubernetes/
 echo 'Stopping and removing existing Docker containers...'
 sudo docker-compose down
 echo 'Getting .env file...'
-bash scripts/get-ver.sh
+bash scripts/get-dotenv.sh
 echo 'Running the docker compose...'
 sudo docker-compose up -d
 "
 
 # Execute commands in the SSH connection 
 gcloud compute ssh --project=$PROJECT_ID --zone=$ZONE $INSTANCE_NAME --ssh-flag="-o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no" --command "$COMMANDS"
+
 
 echo 'Running tests...'
 

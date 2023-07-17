@@ -17,6 +17,12 @@ spec:
           image: razdahan31/flask-k8s:${VER}
           ports:
             - containerPort: 5000
+          env:
+            - name: VER
+              valueFrom:
+                configMapKeyRef:
+                  name: dotenv
+                  key: VER
 
 ---
 apiVersion: v1
