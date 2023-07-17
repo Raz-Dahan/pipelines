@@ -40,6 +40,10 @@ RSA_Key="raz-key.pem"
 INSTANCE_IP=$1
 DOCKER_BUILD=$2
 
+
+echo 'Copying docker-compose.yml and .env to instance...'
+scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
+
 # Dependencies
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 sudo yum update -y
@@ -48,6 +52,8 @@ sudo systemctl enable docker.service
 sudo systemctl start docker.service
 sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+echo 'Getting .env file...'
+/bin/bash get-ver.sh
 echo 'Stopping and removing existing Docker containers...'
 sudo docker-compose down
 echo 'Removing images if there are more than 5...'
@@ -58,15 +64,6 @@ if [ "\$IMAGES_SUM" -gt 5 ]; then
 else
     echo 'No need to delete the oldest build. Total image count is less than or equal to 5.'
 fi
-"
-
-echo 'Copying docker-compose.yml and .env to instance...'
-scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} /var/lib/jenkins/workspace/${Pipeline_Path}/docker-compose.yml /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/get-ver.sh ec2-user@${INSTANCE_IP}:/home/ec2-user
-
-# Deployment
-ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
-echo 'Getting .env file...'
-/bin/bash get-ver.sh
 echo 'Running the docker compose...'
 sudo docker-compose up -d
 "
