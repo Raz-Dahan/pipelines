@@ -4,8 +4,6 @@ if ! command -v jq &> /dev/null; then
     echo 'jq is not installed. Installing jq...'
     sudo apt install jq -y
     echo 'jq has been installed.'
-else
-    echo 'jq is already installed.'
 fi
 
 REPO='razdahan31/flask-k8s'
