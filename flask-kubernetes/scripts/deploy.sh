@@ -5,6 +5,9 @@ echo 'Getting .env file...'
 bash get-ver.sh
 export $(cat .env | xargs)
 
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+gcloud container clusters get-credentials nasa-cluster
+
 IS_APPLIED=$(kubectl get -f manifest.yaml --ignore-not-found)
 
 if [[ -z "$IS_APPLIED" ]]; then
