@@ -27,10 +27,10 @@ fi
 echo 'Setting up workspace...'
 git clone https://github.com/Raz-Dahan/pipelines.git
 cd /home/jenkins/pipelines/flask-kubernetes/
-echo 'Getting .env file...'
-bash scripts/get-ver.sh
 echo 'Stopping and removing existing Docker containers...'
 sudo docker-compose down
+echo 'Getting .env file...'
+bash scripts/get-ver.sh
 echo 'Running the docker compose...'
 sudo docker-compose up -d
 "
