@@ -8,7 +8,8 @@ pipeline {
         // Change the path to your pipeline
         Pipeline_Name = "k8s-pipeline"
         GitHub_Repo = "pipelines/flask-kubernetes"
-        Pipeline_Path = "$Pipeline_Name/$GitHub_Repo"
+        Pipeline_Path = "/var/lib/jenkins/workspace/$Pipeline_Name/$GitHub_Repo"
+        // Change additional paths if need
     }
     triggers {
         // Checking for commits on GitHub every hour 
@@ -25,8 +26,7 @@ pipeline {
             steps {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
-                // Change the dir to your app
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/NASA-flask/") {
+                dir("${Pipeline_Path}/NASA-flask/") {
                     sh "cp /var/lib/jenkins/.env ."
                     echo 'Building Docker image...'
                     sh "docker build -t ${App_Package} ."
@@ -38,7 +38,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Deploying and Running tests on Test instance...'
-                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/test.sh"
+                sh "bash ${Pipeline_Path}/scripts/test.sh"
             }
         }
         stage('Approve') {
@@ -52,12 +52,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production Cluster...'
-                sh "bash /var/lib/jenkins/workspace/${Pipeline_Path}/scripts/deploy.sh"
+                sh "bash ${Pipeline_Path}/scripts/deploy.sh"
             }
         }
         stage('Docker Hub and local images cleanup') {
             steps {
-                dir("/var/lib/jenkins/workspace/${Pipeline_Path}/scripts/") {
+                dir("${Pipeline_Path}/scripts/") {
                     // sh "cp /var/lib/jenkins/.env ."
                     // sh "bash DockerHub_VCS.sh ${Repository}"
                     // sh "bash DockerImages_VCS.sh ${Repository}"
