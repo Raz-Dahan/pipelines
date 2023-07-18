@@ -2,9 +2,9 @@ pipeline {
     agent any
     environment {
         // Change the app package to your Docker Hub repo
-        Repository = "razdahan31/flask-k8s"
+        REPOSITORY = "razdahan31/flask-k8s"
         Tag_Name = "v1.${env.BUILD_NUMBER}"
-        App_Package = "$Repository:$Tag_Name"
+        App_Package = "$REPOSITORY:$Tag_Name"
         // Change the path to your pipeline
         Pipeline_Name = "k8s-pipeline"
         GitHub_Repo = "pipelines/flask-kubernetes"
@@ -59,8 +59,8 @@ pipeline {
             steps {
                 dir("${Pipeline_Path}/scripts/") {
                     // sh "cp /var/lib/jenkins/.env ."
-                    // sh "bash DockerHub_VCS.sh ${Repository}"
-                    // sh "bash DockerImages_VCS.sh ${Repository}"
+                    // sh "bash DockerHub_VCS.sh ${REPOSITORY}"
+                    // sh "bash DockerImages_VCS.sh ${REPOSITORY}"
                 }
             }
         }

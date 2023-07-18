@@ -1,8 +1,9 @@
 #!/bin/bash
 
+REPOSITORY=$1
 echo 'Performing cleanup on local Docker images...'
-if docker images | grep '^${Repository} ' >/dev/null 2>&1; then
-    docker rmi \$(docker images ${Repository} --format \"{{.Repository}}:{{.Tag}}\")
+if docker images | grep '^${REPOSITORY} ' >/dev/null 2>&1; then
+    docker rmi \$(docker images ${REPOSITORY} --format \"{{.Repository}}:{{.Tag}}\")
 fi
 
 INSTANCE_NAME="test"
