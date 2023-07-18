@@ -12,7 +12,7 @@
 <body>
     <div class='header'>
         <p class="count">Entrance Count: {{count}}</p>
-        <div class='title'>NAScA</div>
+        <div class='title'>NASA</div>
         <img class='logo' src="{{ url_for('static', filename='images/' +logo_url) }}" />
     </div>
     <div class="flex_container">
@@ -50,27 +50,6 @@
             {% endif %}
         </div>
     </div>
-    <!-- <div class="test">
-        <h1 style="text-align: center; margin: 16px;">NASA Image of the Day</h1>
-    </div>
-    <form method="POST" action="/" style="display: flex; justify-content: center; gap: 16px;">
-        <input type="date" name="date" required>
-        <button type="submit" role="button"><span>Submit</span></button>
-    </form>
-    {% if image_url %}
-    <div>
-        <h1 style="text-align: center; margin: 16px;"> ChosenDate</h1>
-        <div style="display: flex; justify-content: center; margin: 16px;">
-            <img src="{{ image_url }}" alt="NASA Image of the Day" width=440px height=auto>
-        </div>
-    </div>
-    {% endif %}
-    <div style="display: flex; flex-direction: column; align-items: center; float: left; position: fixed;">
-        <h1 style="text-align: center; margin: 16px; float: left;"> Today</h1>
-        <div style="display: flex; justify-content: center; margin: 16px;">
-            <img src="{{ today_image_url }}" alt="NASA Image of the Day" width=220px height=auto>
-        </div>
-    </div> -->
 </body>
 
 </html>
