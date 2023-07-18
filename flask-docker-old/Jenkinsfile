@@ -18,7 +18,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo "Cloning from GitHub..."'
-                sh 'git clone https://github.com/Raz-Dahan/flask-docker-old.git'
+                sh 'git clone https://github.com/Raz-Dahan/pipelines.git/'
                 dir('/var/lib/jenkins/workspace/flask-docker-old-pipeline/flask-docker-old/alpaca-flask/') {
                     sh 'echo "Building docker image..."'
                     sh 'docker build -t ${AlpacaPackage} .'
