@@ -3,7 +3,7 @@
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 gcloud container clusters get-credentials nasa-cluster
 
-cd /var/lib/jenkins/workspace/${Pipeline_Path}/scripts
+cd ${Pipeline_Path}/scripts
 echo 'Getting ConfigMap...'
 bash get_config.sh
 
