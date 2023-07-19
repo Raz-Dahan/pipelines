@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Crypto Website</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/' +logo_url) }}" />
+    <link rel="stylesheet" type="text/css" href="../static/styles.css" media="screen" />
+</head>
+
+<body class="body">
+    <div class="background">
+        <img src="{{ url_for('static', filename='images/' +background_url) }}" alt="Background Image" width="100%"
+            height="100%">
+    </div>
+    <h1>Crypto Prices Dashboard</h1>
+    <p class="count">Entrance Count: {{ count }}</p>
+    <div class="crypto-container">
+        <div class="crypto-box">
+            <span class="crypto-name">Bitcoin</span>
+            <span class="crypto-price">${{ bitcoin_price }}</span>
+        </div>
+        <div class="crypto-box">
+            <span class="crypto-name">Ethereum</span>
+            <span class="crypto-price">${{ ethereum_price }}</span>
+        </div>
+        <div class="crypto-box">
+            <span class="crypto-name">Litecoin</span>
+            <span class="crypto-price">${{ litecoin_price }}</span>
+        </div>
+    </div>
+</body>
+
+</html>
