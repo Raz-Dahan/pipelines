@@ -1,9 +1,12 @@
 from flask import Flask, render_template
+import os
+from redis import Redis
 import random
 
 app = Flask(__name__)
+redis = Redis(host='redis', port=6379)
 
-# list of alpaca images
+# List of alpaca images
 images = [
     "https://thumbs.gfycat.com/GivingTanBlackrhino-size_restricted.gif",
     "https://media.tenor.com/OZLXGyrE6FYAAAAM/alpaca-eating.gif",
@@ -18,13 +21,14 @@ images = [
     "https://i.chzbgr.com/full/8109056512/hE15FF30C/being-a-baby-alpaca-is-tiring",
 ]
 
-
 @app.route("/")
 def index():
-    gif_url = random.choice(images)
-    logo_url = "logo.png"
-    return render_template("index.html", gif_url=gif_url, logo_url=logo_url)
+    redis.hincrby('entrance_count', 'total', 1)
+    count = redis.hget('entrance_count', 'total').decode('utf-8')
+    url = random.choice(images)
+    return render_template("index.html", url=url, count=int(count))
+
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(host="0.0.0.0")
