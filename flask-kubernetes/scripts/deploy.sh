@@ -3,9 +3,9 @@
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 gcloud container clusters get-credentials nasa-cluster
 
-cd ${Pipeline_Path}/scripts
+cd ${Pipeline_Path}
 echo 'Getting ConfigMap...'
-bash get_config.sh
+bash scripts/get_config.sh
 
 ## kubectl apply -f configmap.yaml
 ## kubectl apply -f manifest-test.yaml
