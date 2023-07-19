@@ -30,7 +30,7 @@ cd /home/jenkins/pipelines/flask-kubernetes/
 echo 'Stopping and removing existing Docker containers...'
 sudo docker-compose down
 echo 'Getting .env file...'
-bash scripts/get-dotenv.sh
+bash scripts/get_dotenv.sh
 echo 'Running the docker compose...'
 sudo docker-compose up -d
 "
