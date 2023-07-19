@@ -1,0 +1,17 @@
+<html>
+
+<head>
+  <title>Alpacas</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/' +logo_url) }}" />
+  <link rel="stylesheet" type="text/css" href="../static/styles.css" media="screen" />
+</head>
+
+<body class='body'>
+  <div class='container'>
+    <h4 class='h4'>Alpaca Gif of the day</h4>
+    <img src="{{gif_url}}" />
+    <p><small>Courtesy: <a href="https://giphy.com/explore/alpaca">Buzzfeed</a></small></p>
+  </div>
+</body>
+
+</html>

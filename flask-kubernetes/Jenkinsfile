@@ -26,7 +26,7 @@ pipeline {
             steps {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
-                dir("${Pipeline_Path}/NASA-flask/") {
+                dir("${Pipeline_Path}/alpaca-flask/") {
                     sh "cp /var/lib/jenkins/.env ."
                     echo 'Building Docker image...'
                     sh "docker build -t ${App_Package} ."
