@@ -17,7 +17,7 @@ gcloud container clusters get-credentials nasa-cluster
 
 cd ${Pipeline_Path}/flask-chart
 echo 'Getting values.yaml'
-bash scripts/get_values.sh
+bash ../scripts/get_values.sh
 rm flask-chart-0.1.0.tgz
 helm package .
 if helm list | grep -q -i "flask-chart"; then
