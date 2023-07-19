@@ -14,15 +14,9 @@ spec:
     spec:
       containers:
         - name: flask
-          image: razdahan31/flask-k8s:${VER}
+          image: razdahan31/flask-k8s:{{ .Values.VER }}
           ports:
             - containerPort: 5000
-          env:
-            - name: VER
-              valueFrom:
-                configMapKeyRef:
-                  name: dotenv
-                  key: VER
 
 ---
 apiVersion: v1
