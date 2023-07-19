@@ -1,9 +1,13 @@
 #!/bin/bash
 
-REPOSITORY=$1
 echo 'Performing cleanup on local Docker images...'
-if docker images | grep '^${REPOSITORY} ' >/dev/null 2>&1; then
-    docker rmi \$(docker images ${REPOSITORY} --format \"{{.Repository}}:{{.Tag}}\")
+echo 'Removing images if there are more than 5...'
+IMAGES_SUM=$(sudo docker images | tail -n +2 | wc -l)
+OLDEST_BUILD=$(sudo docker images --no-trunc --format '{{.Repository}}:{{.Tag}}' | tail -n +2 | sort -V | head -n 1)
+if [ "$IMAGES_SUM" -gt 5 ]; then
+    sudo docker rmi "$OLDEST_BUILD"
+else
+    echo 'No need to delete the oldest build. Total image count is less than or equal to 5.'
 fi
 
 INSTANCE_NAME="test"
