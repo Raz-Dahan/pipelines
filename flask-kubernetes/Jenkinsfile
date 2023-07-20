@@ -52,7 +52,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying on Production Cluster...'
-                sh "bash ${Pipeline_Path}/scripts/deploy.sh"
+                sh "bash ${Pipeline_Path}/scripts/deploy2.sh"
             }
         }
         stage('Docker Hub and local images cleanup') {
