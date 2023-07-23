@@ -39,6 +39,7 @@ pipeline {
             steps {
                 echo 'Deploying and Running tests on Test instance...'
                 // sh "bash ${Pipeline_Path}/scripts/test.sh"
+                sh "bash ${Pipeline_Path}/scripts/deploy.sh --test"
             }
         }
         stage('Approve') {
