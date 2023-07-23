@@ -42,11 +42,11 @@ run_deployment() {
 
 # Flag handling
 if [[ $# -eq 1 && "$1" == "--test" ]]; then
-    CLUSTER_TIER="test-cluster --zone us-east1-b"
+    CLUSTER_TIER="test-cluster --zone us-east1"
     run_deployment
     run_tests
 elif [[ $# -eq 0 ]]; then
-    CLUSTER_TIER="prod-cluster --zone us-central1-a"
+    CLUSTER_TIER="prod-cluster --zone us-central1"
     run_deployment
 else
     usage
