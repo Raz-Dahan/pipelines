@@ -1,8 +1,5 @@
 #!/bin/bash
 
-
-#!/bin/bash
-
 # Flag settings
 usage() {
     echo "Usage: $0 [--test]"
