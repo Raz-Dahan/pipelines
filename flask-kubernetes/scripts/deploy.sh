@@ -46,7 +46,7 @@ if [[ $# -eq 1 && "$1" == "--test" ]]; then
     run_deployment
     run_tests
 elif [[ $# -eq 0 ]]; then
-    CLUSTER_TIER="prod-cluster --zone us-central1"
+    CLUSTER_TIER="prod-cluster --zone us-central1-a"
     run_deployment
 else
     usage
