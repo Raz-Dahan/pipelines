@@ -1,39 +1,49 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: "redis-response-test"
+  name: "redis-job"
   annotations:
     "helm.sh/hook": test
 spec:
-  containers:
-    - name: redis-test
-      image: redis
-      command: ["sh", "-c"]
-      args:
-        - "redis-cli -h redis -p 6379 ping"
-  restartPolicy: Never
+  completions: 1 
+  template:
+    metadata:
+      name: "redis-response-test"
+    spec:
+      containers:
+        - name: redis-test
+          image: redis
+          command: ["sh", "-c"]
+          args:
+            - "redis-cli -h redis -p 6379 ping"
+      restartPolicy: Never
 
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: "flask-app-http-test"
+  name: "http-test-job"
   annotations:
     "helm.sh/hook": test
 spec:
-  initContainers:
-    - name: wait-for-redis
-      image: redis
-      command: ["sh", "-c"]
-      args:
-        - >
-          until redis-cli -h redis -p 6379 ping | grep -q "PONG"; do
-            sleep 5;
-          done;
-  containers:
-    - name: http-test
-      image: razdahan31/flask-k8s:{{ .Values.VER }}
-      command: ["sh", "-c"]
-      args:
-        - "curl http://flask-service.default.svc.cluster.local"
-  restartPolicy: Never
+  completions: 1 
+  template:
+    metadata:
+      name: "flask-app-http-test"
+    spec:
+      initContainers:
+        - name: wait-for-redis
+          image: redis
+          command: ["sh", "-c"]
+          args:
+            - >
+              until redis-cli -h redis -p 6379 ping | grep -q "PONG"; do
+                sleep 1;
+              done;
+      containers:
+        - name: http-test
+          image: razdahan31/flask-k8s:{{ .Values.VER }}
+          command: ["sh", "-c"]
+          args:
+            - "curl http://flask-service.default.svc.cluster.local"
+      restartPolicy: Never
