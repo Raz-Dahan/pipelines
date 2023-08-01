@@ -21,6 +21,16 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
+  initContainers:
+    - name: wait-for-redis
+      image: redis
+      command: ["sh", "-c"]
+      args:
+        - |
+          until redis-cli -h redis -p 6379 ping; do
+            echo "Waiting for Redis to be ready..."
+            sleep 5
+          done
   containers:
     - name: http-test
       image: razdahan31/flask-k8s:{{ .Values.VER }}
