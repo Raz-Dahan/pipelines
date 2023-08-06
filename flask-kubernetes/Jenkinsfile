@@ -59,7 +59,7 @@ pipeline {
         stage('Registries handaling') {
             steps {
                 echo 'Uploading chart package to GCP bucket...'
-                sh "gsutil cp flask-chart-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
+                sh "gsutil cp ${Pipeline_Path}/chart/flask-chart-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
                 dir("${Pipeline_Path}/scripts/") {
                     sh "cp /var/lib/jenkins/.env ."
                     sh "bash DockerHub_VCS.sh ${Repository}"
