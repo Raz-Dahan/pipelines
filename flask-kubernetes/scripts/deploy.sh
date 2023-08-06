@@ -21,7 +21,7 @@ run_tests() {
 # Deploying
 run_deployment() {
     export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-    gcloud container clusters get-credentials $CLUSTER_TIER
+    gcloud container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
 
     cd ${Pipeline_Path}/chart
     echo 'Getting chart yamls...'
@@ -39,11 +39,11 @@ run_deployment() {
 
 # Flag handling
 if [[ $# -eq 1 && "$1" == "--test" ]]; then
-    CLUSTER_TIER="test-cluster --zone us-central1-a"
+    CLUSTER_TIER="test-cluster"
     run_deployment
     run_tests
 elif [[ $# -eq 0 ]]; then
-    CLUSTER_TIER="prod-cluster --zone us-central1-a"
+    CLUSTER_TIER="prod-cluster"
     run_deployment
 else
     usage
