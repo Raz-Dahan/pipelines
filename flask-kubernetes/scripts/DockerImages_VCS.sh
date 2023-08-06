@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE="flask-ip"
+IMAGE=$1
 
 echo "Performing cleanup on local Docker images..."
 echo "Removing images of '$IMAGE' if there are more than 5..."
