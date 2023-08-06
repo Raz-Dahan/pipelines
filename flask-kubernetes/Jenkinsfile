@@ -56,7 +56,7 @@ pipeline {
                 sh "bash ${Pipeline_Path}/scripts/deploy.sh"
             }
         }
-        stage('Registries handaling') {
+        stage('Registries Handaling') {
             steps {
                 echo 'Uploading chart package to GCP bucket...'
                 sh "gsutil cp ${Pipeline_Path}/chart/flask-chart-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
