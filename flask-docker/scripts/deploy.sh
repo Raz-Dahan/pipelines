@@ -50,6 +50,8 @@ sudo yum update -y
 if ! command -v docker &> /dev/null; then
     echo 'Docker is not installed. Installing Docker...'
     sudo yum install docker -y
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
 else
     echo 'Docker is already installed.'
 fi
