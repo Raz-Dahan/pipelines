@@ -14,7 +14,7 @@ usage() {
 # Testing
 run_tests() {
     EXTERNAL_IP=$(kubectl get service flask-service -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    http_response=$(curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL-IP}:80)
+    http_response=$(curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_IP}:80)
     if [[ $http_response == 200 ]]; then
         echo "Flask app returned a 200 status code. Test passed!"
         gsutil cp ${Pipeline_Path}/chart/$Chart_Name-1.${BUILD_NUMBER}.0.tgz  gs://$GCP_Bucket
