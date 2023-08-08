@@ -47,23 +47,25 @@ scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenk
 # Dependencies
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenkins/${RSA_Key} ec2-user@${INSTANCE_IP} "
 sudo yum update -y
-sudo yum install docker -y
-sudo systemctl enable docker.service
-sudo systemctl start docker.service
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+if ! command -v docker &> /dev/null; then
+    echo 'Docker is not installed. Installing Docker...'
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+else
+    echo 'Docker is already installed.'
+fi
+if ! command -v docker-compose &> /dev/null; then
+    echo 'Docker Compose is not installed. Installing Docker Compose...'
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    echo 'Docker Compose has been installed.'
+else
+    echo 'Docker Compose is already installed.'
+fi
 echo 'Getting .env file...'
 /bin/bash get-ver.sh
 echo 'Stopping and removing existing Docker containers...'
 sudo docker-compose down
-echo 'Removing images if there are more than 5...'
-IMAGES_SUM=\$(sudo docker images | tail -n +2 | wc -l)
-OLDEST_BUILD=\$(sudo docker images --no-trunc --format '{{.Repository}}:{{.Tag}}' | tail -n +2 | sort -V | head -n 1)
-if [ "\$IMAGES_SUM" -gt 5 ]; then
-    sudo docker rmi \"\$OLDEST_BUILD\"
-else
-    echo 'No need to delete the oldest build. Total image count is less than or equal to 5.'
-fi
 echo 'Running the docker compose...'
 sudo docker-compose up -d
 "
