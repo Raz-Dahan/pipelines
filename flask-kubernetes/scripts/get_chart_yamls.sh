@@ -8,7 +8,7 @@ fi
 
 echo 'Getting Chart.yaml...'
 echo "apiVersion: v2
-name: flask-chart
+name: NANA-app
 version: 1.$BUILD_NUMBER.0
 description: A Helm chart for deploying Flask and Redis" > Chart.yaml
 
