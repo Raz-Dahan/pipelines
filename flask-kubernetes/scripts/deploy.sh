@@ -2,7 +2,7 @@
 
 Chart_Name="nasa-app"
 GCP_Bucket="chart-packages"
-VER="1.198.0"
+VER="1.$BUILD_NUMBER.0"
 
 # Flag settings
 usage() {
