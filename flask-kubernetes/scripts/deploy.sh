@@ -47,7 +47,7 @@ run_deployment() {
         helm package .
         helm_handaling
     elif [[ $CLUSTER_TIER == "prod-cluster" ]]; then
-        gsutil cp "gs://$GCP_BUCKET/$Chart_Name-1.$BUILD_NUMBER.0.tgz" .
+        gsutil cp "gs://$GCP_Bucket/$Chart_Name-1.$BUILD_NUMBER.0.tgz" .
         helm_handaling
     fi
 }
