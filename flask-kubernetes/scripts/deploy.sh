@@ -2,7 +2,7 @@
 
 Chart_Name="nasa-app"
 GCP_Bucket="chart-packages"
-VER="1.$BUILD_NUMBER.0"
+VER="1.198.0"
 
 # Flag settings
 usage() {
@@ -29,7 +29,7 @@ helm_handaling() {
     if helm list | grep -q -i "$Chart_Name"; then
         echo 'Chart already installed'
         echo 'Performing upgrade...'
-        helm upgrade $Chart_Name $Chart_Name-$VER.tgz --reuse-values -f values.yaml
+        helm upgrade $Chart_Name $Chart_Name-$VER.tgz$REUSE
     else
         echo 'Installing the chart...'
         helm install $Chart_Name $Chart_Name-$VER.tgz
@@ -46,9 +46,11 @@ run_deployment() {
         echo 'Getting chart yamls...'
         bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
         helm package .
+        REUSE=" --reuse-values -f values.yaml"
         helm_handaling
     elif [[ $CLUSTER_TIER == "prod-cluster" ]]; then
         gsutil cp "gs://$GCP_Bucket/$Chart_Name-$VER.tgz" .
+        REUSE=""
         helm_handaling
     fi
 }
