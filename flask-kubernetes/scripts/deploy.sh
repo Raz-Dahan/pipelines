@@ -2,6 +2,7 @@
 
 Chart_Name="nasa-app"
 GCP_Bucket="chart-packages"
+VER="1.$BUILD_NUMBER.0"
 
 # Flag settings
 usage() {
@@ -17,7 +18,7 @@ run_tests() {
     http_response=$(curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_IP}:80)
     if [[ $http_response == 200 ]]; then
         echo "Flask app returned a 200 status code. Test passed!"
-        gsutil cp ${Pipeline_Path}/chart/$Chart_Name-1.${BUILD_NUMBER}.0.tgz  gs://$GCP_Bucket
+        gsutil cp ${Pipeline_Path}/chart/$Chart_Name-$VER.tgz  gs://$GCP_Bucket
     else
         echo "Flask app returned a non-200 status code: $http_response. Test failed!"
         exit 1
@@ -28,10 +29,10 @@ helm_handaling() {
     if helm list | grep -q -i "$Chart_Name"; then
         echo 'Chart already installed'
         echo 'Performing upgrade...'
-        helm upgrade $Chart_Name $Chart_Name-1.$BUILD_NUMBER.0.tgz --reuse-values -f values.yaml
+        helm upgrade $Chart_Name $Chart_Name-$VER.tgz --reuse-values -f values.yaml
     else
         echo 'Installing the chart...'
-        helm install $Chart_Name $Chart_Name-1.$BUILD_NUMBER.0.tgz
+        helm install $Chart_Name $Chart_Name-$VER.tgz
     fi
 }
 
@@ -43,11 +44,11 @@ run_deployment() {
     if [[ $CLUSTER_TIER == "test-cluster" ]]; then
         cd ${Pipeline_Path}/chart
         echo 'Getting chart yamls...'
-        bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
+        bash ${Pipeline_Path}/scripts/get_values_yaml.sh
         helm package .
         helm_handaling
     elif [[ $CLUSTER_TIER == "prod-cluster" ]]; then
-        gsutil cp "gs://$GCP_Bucket/$Chart_Name-1.$BUILD_NUMBER.0.tgz" .
+        gsutil cp "gs://$GCP_Bucket/$Chart_Name-$VER.tgz" .
         helm_handaling
     fi
 }
