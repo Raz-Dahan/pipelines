@@ -39,7 +39,7 @@ helm_handaling() {
 # Deploying
 run_deployment() {
     export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-    gcloudget_values_yaml container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
+    gcloud container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
 
     if [[ $CLUSTER_TIER == "test-cluster" ]]; then
         cd ${Pipeline_Path}/chart
