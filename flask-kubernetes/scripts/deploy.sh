@@ -39,12 +39,12 @@ helm_handaling() {
 # Deploying
 run_deployment() {
     export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-    gcloud container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
+    gcloudget_values_yaml container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
 
     if [[ $CLUSTER_TIER == "test-cluster" ]]; then
         cd ${Pipeline_Path}/chart
         echo 'Getting chart yamls...'
-        bash ${Pipeline_Path}/scripts/get_values_yaml.sh
+        bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
         helm package .
         helm_handaling
     elif [[ $CLUSTER_TIER == "prod-cluster" ]]; then
