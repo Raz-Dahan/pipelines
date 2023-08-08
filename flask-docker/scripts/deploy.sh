@@ -49,8 +49,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /var/lib/jenk
 sudo yum update -y
 if ! command -v docker &> /dev/null; then
     echo 'Docker is not installed. Installing Docker...'
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sudo sh get-docker.sh
+    sudo yum install docker -y
 else
     echo 'Docker is already installed.'
 fi
