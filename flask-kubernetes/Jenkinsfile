@@ -56,6 +56,12 @@ pipeline {
                 sh "bash ${Pipeline_Path}/scripts/deploy.sh"
             }
         }
+        stage('Monitoring') {
+            steps {
+                echo 'Start monitoring production...'
+                sh "bash ${Pipeline_Path}/scripts/monitoring.sh"
+            }
+        }
         stage('Registries Handaling') {
             steps {
                 echo 'Uploading chart package to GCP bucket...'
