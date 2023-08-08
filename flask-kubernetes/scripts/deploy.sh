@@ -1,6 +1,6 @@
 #!/bin/bash
 
-Chart_Name="NANA-app"
+Chart_Name="nasa-app"
 GCP_Bucket="chart-packages"
 
 # Flag settings
