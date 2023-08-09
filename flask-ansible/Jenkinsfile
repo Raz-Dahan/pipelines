@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         App_Package = "App_Package${env.BUILD_NUMBER}.tar.gz"
-        Pipeline_Path = "flask-ansible-pipeline/pipelines/flask-ansible"
+        Pipeline_Path = "flask-ansible/pipelines/flask-ansible"
         S3_url = "s3://raz-flask-artifacts"
         RSA_Key = "raz-key.pem"
         TEST_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
