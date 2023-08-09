@@ -45,7 +45,6 @@
           [Install]
           WantedBy=multi-user.target
         dest: /etc/systemd/system/flask.service
-      notify: Restart Flask Service
       tags: service
 
     - name: Restart Flask Service
