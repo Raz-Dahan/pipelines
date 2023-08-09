@@ -1,6 +1,6 @@
 - name: Setup Flask Application
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
 
   tasks:
     - name: Update system packages
