@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Variables
 Chart_Name="nasa-app"
 GCP_Bucket="chart-packages"
 VER="1.$BUILD_NUMBER.0"
@@ -25,44 +26,41 @@ run_tests() {
     fi
 }
 
-helm_handaling() {
+# Building
+helm_build () {
+    echo 'Getting chart yamls...'
+    bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
+    helm package .
+}
+
+# Deploying
+helm_deployment() {
+    export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+    gcloud container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
+
     if helm list | grep -q -i "$Chart_Name"; then
         echo 'Chart already installed'
         echo 'Performing upgrade...'
-        helm upgrade $Chart_Name $Chart_Name-$VER.tgz$REUSE
+        helm upgrade $Chart_Name $Chart_Name-$VER.tgz --reuse-values -f values.yaml
     else
         echo 'Installing the chart...'
         helm install $Chart_Name $Chart_Name-$VER.tgz
     fi
 }
 
-# Deploying
-run_deployment() {
-    export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-    gcloud container clusters get-credentials $CLUSTER_TIER --zone us-central1-a
 
-    if [[ $CLUSTER_TIER == "test-cluster" ]]; then
-        cd ${Pipeline_Path}/chart
-        echo 'Getting chart yamls...'
-        bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
-        helm package .
-        REUSE=" --reuse-values -f values.yaml"
-        helm_handaling
-    elif [[ $CLUSTER_TIER == "prod-cluster" ]]; then
-        gsutil cp "gs://$GCP_Bucket/$Chart_Name-$VER.tgz" .
-        REUSE=""
-        helm_handaling
+
+main () {
+    cd ${Pipeline_Path}/chart
+    if [[ $# -eq 1 && "$1" == "--test" ]]; then
+        CLUSTER_TIER="test-cluster"
+        helm_build
+        helm_deployment
+        run_tests
+    elif [[ $# -eq 0 ]]; then
+        CLUSTER_TIER="prod-cluster"
+        helm_deployment
+    else
+        usage
     fi
 }
-
-# Flag handling
-if [[ $# -eq 1 && "$1" == "--test" ]]; then
-    CLUSTER_TIER="test-cluster"
-    run_deployment
-    run_tests
-elif [[ $# -eq 0 ]]; then
-    CLUSTER_TIER="prod-cluster"
-    run_deployment
-else
-    usage
-fi
