@@ -1,6 +1,6 @@
 # Flask Docker Project
 
-Welcome to the Flask Project repository! This project utilizes Flask and Alpaca API to display a random Alpaca GIF of the day every time you refresh the website. The repository includes the necessary files to set up the project and run it on EC2 instances using Jenkins.
+Welcome to the Flask Project repository! This project utilizes Flask and display a random Alpaca GIF of the day every time you refresh the website. The repository includes the necessary files to set up the project and run it on EC2 instances using Jenkins.
 
 ## Prerequisites
 
@@ -8,9 +8,11 @@ Before running this project, please ensure that you have the following:
 
 - An EC2 instance with the `platform:production` tag.
 - Another EC2 instance with the `platform:test` tag.
-- ensure that you have an S3 bucket.
 - Jenkins installed on your server (Ubuntu).
+- aws-cli configured
 - AWS IAM role with full access to S3 and EC2.
+- Docker installed.
+- DockerHub account
 
 ## Getting Started
 
@@ -19,7 +21,8 @@ To get started with this project, please follow these steps:
 1. Clone the repository to your Jenkins server:
 
    ```
-   git clone https://github.com/Raz-Dahan/flask-project.git
+   git clone https://github.com/Raz-Dahan/pipelines.git
+   cd pipelines/docker-pipeline
    ```
 
 2. Configure the AWS credentials on your local machine by setting the necessary environment variables.
@@ -31,13 +34,6 @@ To get started with this project, please follow these steps:
    - Launch Jenkins on your server and set it up.
    - Create a new pipeline job.
    - In the pipeline configuration, specify the Jenkinsfile from this repository.
-   - Update the S3 bucket name in the Jenkinsfile to match your own bucket.
-5. Ensure that your sudoers file on your Jenkins server includes the following command to allow Jenkins to run the tests properly:
-
-   ```
-   jenkins ALL=(ALL) NOPASSWD: /bin/systemctl restart flask.service
-   ```
-
 
 ## Running the Project
 
@@ -51,7 +47,6 @@ Once you have completed the setup, you can run the Flask project using the follo
 
 4. Every time you refresh the website, a new random Alpaca GIF of the day will be displayed.
 
-The project keeps track of the last 5 builds in an S3 bucket.
 
 ## Contributing
 
