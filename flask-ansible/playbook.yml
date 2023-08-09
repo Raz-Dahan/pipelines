@@ -48,6 +48,12 @@
       notify: Restart Flask Service
       tags: service
 
+    - name: Reload systemd
+      become: true
+      systemd:
+        daemon_reload: yes
+
+
   handlers:
     - name: Restart Flask Service
       become: true
