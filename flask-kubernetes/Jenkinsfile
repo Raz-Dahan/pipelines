@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // Change the app package to your Docker Hub repo
-        Repository = "razdahan31/flask-k8s"
+        Repository = "razdahan31/nasa-app"
         Tag_Name = "v1.${env.BUILD_NUMBER}"
         App_Package = "$Repository:$Tag_Name"
         GCP_Bucket = "chart-packages"
@@ -27,7 +27,7 @@ pipeline {
             steps {
                 echo 'Cloning from GitHub...'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
-                dir("${Pipeline_Path}/NASA-flask/") {
+                dir("${Pipeline_Path}/NASA/") {
                     sh "cp /var/lib/jenkins/.env ."
                     echo 'Building Docker image...'
                     sh "docker build -t ${App_Package} ."

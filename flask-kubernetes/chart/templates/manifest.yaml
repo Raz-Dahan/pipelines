@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-deployment
+  name: nasa-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: flask-app
+      app: nasa-app
   template:
     metadata:
       labels:
-        app: flask-app
+        app: nasa-app
     spec:
       containers:
-        - name: flask
-          image: razdahan31/flask-k8s:{{ .Values.TAG }}
+        - name: nasa
+          image: razdahan31/nasa-app:{{ .Values.TAG }}
           ports:
             - containerPort: 5000
 
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-service
+  name: nasa-service
 spec:
   selector:
-    app: flask-app
+    app: nasa-app
   ports:
     - protocol: TCP
       port: 80

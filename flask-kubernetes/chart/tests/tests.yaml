@@ -29,7 +29,7 @@ spec:
   completions: 1 
   template:
     metadata:
-      name: "flask-app-http-test"
+      name: "app-http-test"
     spec:
       initContainers:
         - name: wait-for-redis
@@ -42,8 +42,8 @@ spec:
               done;
       containers:
         - name: http-test
-          image: razdahan31/flask-k8s:{{ .Values.VER }}
+          image: razdahan31/nasa-app:{{ .Values.VER }}
           command: ["sh", "-c"]
           args:
-            - "curl http://flask-service.default.svc.cluster.local"
+            - "curl http://nasa-service.default.svc.cluster.local"
       restartPolicy: Never
