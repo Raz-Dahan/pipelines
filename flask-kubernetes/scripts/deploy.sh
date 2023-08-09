@@ -64,3 +64,5 @@ main () {
         usage
     fi
 }
+
+main
