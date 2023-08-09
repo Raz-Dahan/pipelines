@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         App_Package = "App_Package${env.BUILD_NUMBER}.tar.gz"
-        Pipeline_Path = "flask-ansible/pipelines/flask-ansible"
+        Pipeline_Path = "ansible-pipeline/pipelines/ansible-pipeline"
         S3_url = "s3://raz-flask-artifacts"
         RSA_Key = "raz-key.pem"
         TEST_IP = sh(script: "aws ec2 describe-instances --region eu-central-1 --filters Name=tag:platform,Values=test --query 'Reservations[].Instances[].PublicIpAddress' --output text", returnStdout: true).trim()
@@ -23,7 +23,7 @@ pipeline {
                 sh 'echo "Cloning from GitHub..."'
                 sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
                 sh 'echo "Packaging..."'
-                sh 'tar -czvf ${App_Package} pipelines/flask-ansible'
+                sh 'tar -czvf ${App_Package} pipelines/ansible-pipeline'
                 sh 'echo "Pushing to S3..."'
                 sh 'aws s3 cp ${App_Package} ${S3_url}'
                 sh 'echo "Making sure that the last five build packages on S3..."'
@@ -46,7 +46,7 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${TEST_IP} '
                     tar -xvf /home/ec2-user/${App_Package}
                     rm -r ${App_Package}
-                    /bin/bash ./pipelines/flask-ansible/deploy.sh
+                    /bin/bash ./pipelines/ansible-pipeline/deploy.sh
                     '
                     """
                     sh 'echo "Running tests..."'
@@ -71,7 +71,7 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} '
                     tar -xvf /home/ec2-user/${App_Package}
                     rm -r ${App_Package}
-                    /bin/bash ./pipelines/flask-ansible/deploy.sh
+                    /bin/bash ./pipelines/ansible-pipeline/deploy.sh
                     '
                     """
                 }

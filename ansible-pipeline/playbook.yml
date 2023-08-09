@@ -12,19 +12,19 @@
 
     - name: Change directory
       become: true
-      command: cd /home/ec2-user/pipelines/flask-ansible/crypto-flask/
+      command: cd /home/ec2-user/pipelines/ansible-pipeline/crypto-flask/
       tags: cd
 
     - name: Install Python dependencies
       become: true
       pip:
-        requirements: /home/ec2-user/pipelines/flask-ansible/crypto-flask/requirements.txt
+        requirements: /home/ec2-user/pipelines/ansible-pipeline/crypto-flask/requirements.txt
       tags: pip
 
     - name: Set executable permissions for playbook
       become: true
       file:
-        path: /home/ec2-user/pipelines/flask-ansible/crypto-flask/app.py
+        path: /home/ec2-user/pipelines/ansible-pipeline/crypto-flask/app.py
         mode: ugo+rx
       tags: permissions
 
@@ -38,7 +38,7 @@
 
           [Service]
           User=root
-          WorkingDirectory=/home/ec2-user/pipelines/flask-ansible/crypto-flask
+          WorkingDirectory=/home/ec2-user/pipelines/ansible-pipeline/crypto-flask
           ExecStart=/usr/local/bin/flask run --host=0.0.0.0 --port=80
           Restart=always
 
@@ -48,31 +48,8 @@
       notify: Restart Flask Service
       tags: service
 
-    - name: Start Flask service
-      become: true
-      systemd:
-        name: flask.service
-        state: started
-        enabled: yes
-      tags: service
-
     - name: Restart Flask Service
       become: true
       systemd:
         name: flask.service
         state: restarted
-
-    - name: Reload Systemd daemon
-      become: true
-      shell: systemctl daemon-reload
-      changed_when: false
-      ignore_errors: true
-      tags: service-reload
-
-    - name: Start Flask service (Retry)
-      become: true
-      systemd:
-        name: flask.service
-        state: started
-        enabled: yes
-      tags: service-restart
