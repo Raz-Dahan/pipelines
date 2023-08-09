@@ -56,7 +56,6 @@
         enabled: yes
       tags: service
 
-  handlers:
     - name: Restart Flask Service
       become: true
       systemd:
