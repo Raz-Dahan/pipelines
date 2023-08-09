@@ -29,7 +29,7 @@ sudo docker run -d -p 5000:5000 --restart always ${DOCKER_BUILD}
 while getopts ":test" option; do
   case $option in
     test)
-      /bin/bash /var/lib/jenkins/workspace/flask-docker-pipeline/flask-docker/tests.sh
+      /bin/bash /var/lib/jenkins/workspace/docker-pipeline/pipelines/docker-pipeline/tests.sh
       ;;
     *)
       echo "the only flag is '-test'"
