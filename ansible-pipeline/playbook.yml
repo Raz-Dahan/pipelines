@@ -47,6 +47,11 @@
         dest: /etc/systemd/system/flask.service
       tags: service
 
+    - name: Reload Systemd daemon
+      become: true
+      shell: systemctl daemon-reload
+      tags: service-reload
+
     - name: Restart Flask Service
       become: true
       systemd:
