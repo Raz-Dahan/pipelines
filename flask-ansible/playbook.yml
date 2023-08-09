@@ -60,6 +60,9 @@
       systemd:
         name: flask.service
         state: restarted
+    - name: Debug Handler Execution
+      debug:
+        msg: "Handler executed successfully."
 
 - name: Start Flask service
   hosts: localhost
