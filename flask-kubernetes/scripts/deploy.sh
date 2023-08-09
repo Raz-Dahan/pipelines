@@ -2,7 +2,6 @@
 
 # Variables
 Chart_Name="nasa-app"
-GCP_Bucket="chart-packages"
 VER="1.$BUILD_NUMBER.0"
 
 # Flag settings
@@ -15,13 +14,18 @@ usage() {
 
 # Testing
 run_tests() {
+    if helm test $Chart_Name; then
+        echo 'Tests passed.'
+    else
+        echo 'Tests failed.'
+        exit 1
+    fi
     EXTERNAL_IP=$(kubectl get service flask-service -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
     http_response=$(curl -s -o /dev/null -w "%{http_code}" ${EXTERNAL_IP}:80)
     if [[ $http_response == 200 ]]; then
-        echo "Flask app returned a 200 status code. Test passed!"
-        gsutil cp ${Pipeline_Path}/chart/$Chart_Name-$VER.tgz  gs://$GCP_Bucket
+        echo "LoadBalancer returned a 200 status code. Test passed!"
     else
-        echo "Flask app returned a non-200 status code: $http_response. Test failed!"
+        echo "LoadBalancer returned a non-200 status code: $http_response. Test failed!"
         exit 1
     fi
 }
