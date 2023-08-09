@@ -48,21 +48,32 @@
       notify: Restart Flask Service
       tags: service
 
-  handlers:
-    - name: Restart Flask Service
-      become: true
-      ansible.builtin.service:
-        name: flask.service
-        state: restarted
-
-- name: Start Flask service
-  hosts: localhost
-  gather_facts: false
-  tasks:
     - name: Start Flask service
       become: true
-      ansible.builtin.service:
+      systemd:
         name: flask.service
         state: started
         enabled: yes
       tags: service
+
+  handlers:
+    - name: Restart Flask Service
+      become: true
+      systemd:
+        name: flask.service
+        state: restarted
+
+    - name: Reload Systemd daemon
+      become: true
+      shell: systemctl daemon-reload
+      changed_when: false
+      ignore_errors: true
+      tags: service-reload
+
+    - name: Start Flask service (Retry)
+      become: true
+      systemd:
+        name: flask.service
+        state: started
+        enabled: yes
+      tags: service-restart
