@@ -65,4 +65,4 @@ main() {
     fi
 }
 
-main
+main $@
