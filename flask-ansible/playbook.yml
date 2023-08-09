@@ -52,7 +52,7 @@
     - name: Restart Flask Service
       become: true
       ansible.builtin.service:
-        name: flask
+        name: flask.service
         state: restarted
 
 - name: Start Flask service
@@ -62,7 +62,7 @@
     - name: Start Flask service
       become: true
       ansible.builtin.service:
-        name: flask
+        name: flask.service
         state: started
         enabled: yes
       tags: service
