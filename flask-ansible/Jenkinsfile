@@ -63,16 +63,18 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'echo "Copying S3 object to ec2..."'
-                sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} "aws s3 cp ${S3_url}/${App_Package} /home/ec2-user/${App_Package}"'
-                sh 'echo "Unpacking and start the flask..."'
-                sh """ 
-                ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} '
-                tar -xvf /home/ec2-user/${App_Package}
-                rm -r ${App_Package}
-                /bin/bash ./pipelines/flask-ansible/deploy.sh
-                '
-                """
+                script {
+                    sh 'echo "Copying S3 object to ec2..."'
+                    sh 'ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} "aws s3 cp ${S3_url}/${App_Package} /home/ec2-user/${App_Package}"'
+                    sh 'echo "Unpacking and start the flask..."'
+                    sh """ 
+                    ssh -o StrictHostKeyChecking=no -i /var/lib/jenkins/${RSA_Key} ec2-user@${PROD_IP} '
+                    tar -xvf /home/ec2-user/${App_Package}
+                    rm -r ${App_Package}
+                    /bin/bash ./pipelines/flask-ansible/deploy.sh
+                    '
+                    """
+                }
             }
         }   
     }
