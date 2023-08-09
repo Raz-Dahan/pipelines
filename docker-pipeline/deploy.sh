@@ -23,7 +23,7 @@ fi
 echo 'Pulling image from Docker Hub to instance...'
 sudo docker pull ${DOCKER_BUILD}
 echo 'Running the flask...'
-sudo docker run -d -p 5000:5000 --restart always ${DOCKER_BUILD}
+sudo docker run -d -p 80:5000 --restart always ${DOCKER_BUILD}
 "
 
 while getopts ":test" option; do

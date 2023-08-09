@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-import os
 import random
 
 app = Flask(__name__)
@@ -22,9 +21,11 @@ images = [
 
 @app.route("/")
 def index():
-    url = random.choice(images)
-    return render_template("index.html", url=url)
+    gif_url = random.choice(images)
+    logo_url = "logo.png"
+    return render_template("index.html", gif_url=gif_url, logo_url=logo_url)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True, host="0.0.0.0")
+    
