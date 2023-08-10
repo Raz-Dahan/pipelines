@@ -7,8 +7,8 @@ pipeline {
         App_Package = "$Repository:$Tag_Name"
         GCP_Bucket = "chart-packages"
         // Change the path to your pipeline
-        Pipeline_Name = "k8s-pipeline"
-        GitHub_Repo = "pipelines/flask-kubernetes"
+        Pipeline_Name = "kubernetes-pipeline"
+        GitHub_Repo = "pipelines/kubernetes-pipeline"
         Pipeline_Path = "/var/lib/jenkins/workspace/$Pipeline_Name/$GitHub_Repo"
         // Change additional paths if need
     }
