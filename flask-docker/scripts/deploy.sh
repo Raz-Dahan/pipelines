@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change the path to your pipeline
-Pipeline_Path="flask-docker-pipeline/pipelines/flask-docker"
+Pipeline_Path="docker-compose-pipeline/pipelines/docker-compose-pipeline"
 
 # Flag's functions
 usage() {
