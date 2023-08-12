@@ -1,6 +1,7 @@
 # CI/CD Project
 
-Welcome! This project focuses on continuous integration and continuous deployment using Jenkins, Docker and Kubernetes.<br />
+Welcome! This project focuses on continuous integration and continuous deployment using Jenkins, Docker Kubernetes, Helm.<br />
+You have the options to control Infrastructure as code using Terraform and monitor using Prometheus and Grafana.
 It includes a Flask application, a Jenkinsfile for build, test, approval, and deploy stages, as well as scripts for deployment and testing.
 
 - This project is designed so that anyone can use it. You just need to perform all the preparations and modify the variable names to suit your needs.
@@ -29,7 +30,6 @@ Before running this project, please ensure that you have the following:
    ```
    jenkins ALL=(ALL) NOPASSWD: /bin/systemctl restart flask.service
    ```
-- Perform `aws configure` with the jenkins user with administaror access IAM access keys.
 - Perform `docker login -u <user>` with Docker Hub PAT as password with the jenkins user.
 - Perform `gcloud auth login <account>` with jenkins user, use this [guide](https://cloud.google.com/sdk/gcloud/reference/auth/login "gcloud auth login guide") if needed.
 - Perform Kubectl authentication with your gcloud, use this [guide](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke "Kubectl authentication") if needed.
@@ -69,7 +69,13 @@ Once you have completed the setup, you can run the project using the following s
 
 4. Test the application's functionality, ensuring it meets the requirements.
 
-- Notice that the pipeline keep the last 10 images on Docker Hub for versions control and the last five images on the instances for troubleshooting
+5. To access the monitoring tools go to gcp-console > kubernetes engine > "servicess & ingress" >  prometheus-grafana > edit > change "metadata: type" to LoadBalancer, then enter these Grafana cardentials:
+```
+	username: admin
+	password: prom-operator
+```
+
+- Notice that the pipeline keep the last 10 images on Docker Hub for versions control and the last five images on the local VM for troubleshooting, successful helm versions uploded to GCP bucket.
 
 ## Contributing
 
