@@ -20,4 +20,4 @@ Streamlined CI/CD Pipelines using different platforms
 🤖 Automate your deployment with our Ansible pipeline. Say goodbye to manual setups and hello to seamless configurations.
 
 
-Feel free to explore our pipelines and adapt them to fit your unique needs.
+Feel free to explore the pipelines and adapt them to fit your unique needs.
