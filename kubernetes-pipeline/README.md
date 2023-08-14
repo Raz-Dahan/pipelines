@@ -15,6 +15,9 @@ In today's fast-paced software development landscape, CI/CD has become an essent
 
 ## How It Works
 
+![Pipleline's Diargam](Assets/Diagram.png)
+
+
 Our project provides a practical example of how these tools come together in a seamless workflow:
 
 1. Developers make code changes and commit them to the version control repository.
@@ -29,7 +32,7 @@ Our project provides a practical example of how these tools come together in a s
 
 ## Technical Details
 
-For a detailed guide on how to set up and operate this CI/CD pipeline, please refer to the [Operational README](Operational-README.md). The operational README provides step-by-step instructions, prerequisites, and explanations for each component of the project.
+For a detailed guide on how to set up and operate this CI/CD pipeline, please refer to the [Operational README](Assets/Operational-README.md). The operational README provides step-by-step instructions, prerequisites, and explanations for each component of the project.
 
 ## Contact
 
