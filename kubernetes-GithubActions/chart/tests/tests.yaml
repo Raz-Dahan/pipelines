@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "redis-job"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  completions: 1 
+  template:
+    metadata:
+      name: "redis-response-test"
+    spec:
+      containers:
+        - name: redis-test
+          image: redis
+          command: ["sh", "-c"]
+          args:
+            - "redis-cli -h redis -p 6379 ping"
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "http-test-job"
+  annotations:
+    "helm.sh/hook": test
+spec:
+  completions: 1 
+  template:
+    metadata:
+      name: "app-http-test"
+    spec:
+      initContainers:
+        - name: wait-for-redis
+          image: redis
+          command: ["sh", "-c"]
+          args:
+            - >
+              until redis-cli -h redis -p 6379 ping | grep -q "PONG"; do
+                sleep 1;
+              done;
+      containers:
+        - name: http-test
+          image: razdahan31/nasa-app:{{ .Values.VER }}
+          command: ["sh", "-c"]
+          args:
+            - "curl http://nasa-service.default.svc.cluster.local"
+      restartPolicy: Never

@@ -1,0 +1,170 @@
+@font-face {
+    font-family: LogoFont;
+    src: url(nasalization-rg.otf);
+}
+
+@font-face {
+    font-family: Assistant;
+    src: url(Assistant-Regular.ttf);
+}
+
+body {
+    font-family: Assistant;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ----------------------------------------------
+Header styling
+*/
+.header {
+    display: flex;
+    width: 100%;
+    height: 5rem;
+    justify-content: space-between;
+    background-color: #323a45;
+    align-items: center;
+}
+
+.title {
+    font-family: LogoFont;
+    font-size: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+}
+
+.logo {
+    width: auto;
+    height: 90%;
+}
+
+.count {
+    color: #fff;
+    margin-left: 1rem;
+}
+
+/* ----------------------------------------------
+Todays image styling
+*/
+.flex_container {
+    display: flex;
+    margin-top: 3rem;
+}
+
+.today_img_container {
+    display: flex;
+    flex-direction: column;
+    width: 19%;
+    height: 72vh;
+    color: #323a45;
+    padding-right: 2rem;
+    padding-left: 2rem;
+    border-right: 1px solid #323a45;
+    text-align: center;
+    justify-content: center;
+}
+
+.img_title {
+    font-size: 1.2rem;
+    margin-bottom: .9rem;
+}
+
+
+.today_img {
+    width: 100%;
+    height: auto;
+}
+
+.description {
+    text-align: left;
+    font-size: .8rem;
+    margin-top: .5rem;
+}
+
+/* ----------------------------------------------
+Birthday image styling
+*/
+.submit_btn {
+    font-family: LogoFont;
+    background-color: #FC3D21;
+    width: 5rem;
+    height: 1.5rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.submit_btn:hover {
+    background-color: #c52e18;
+    box-shadow: 0px 7px 17px rgba(184, 38, 38, .5);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.birthday_container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 70%;
+}
+
+.form_container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.date_btn {
+    border: 1px solid black;
+    width: 7rem;
+    height: 1.5rem;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    /* font-family: 'Roboto', sans-serif; */
+}
+
+.submit_form_container {
+    display: flex;
+    height: 72vh;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.reload_btn {
+    font-family: LogoFont;
+    background-color: #FC3D21;
+    width: 5rem;
+    height: 1.5rem;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: white;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.birthday_img {
+    width: 70%;
+}
+
+.birthday_flex_container {
+    display: flex;
+    padding-left: 2rem;
+}

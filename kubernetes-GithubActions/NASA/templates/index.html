@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/' +icon_url) }}" />
+    <title>NASA Image of the Day</title>
+</head>
+
+<body>
+    <div class='header'>
+        <p class="count">Entrance Count: {{count}}</p>
+        <div class='title'>NASA</div>
+        <img class='logo' src="{{ url_for('static', filename='images/' +logo_url) }}" />
+    </div>
+    <div class="flex_container">
+        <div class='today_img_container'>
+            <div class='img_title'>Image of the day</div>
+            <img class='today_img' src="{{ today_image_url }}" />
+            <div class='description'>
+                {{today_describe_url}}
+            </div>
+        </div>
+        <div class="birthday_container">
+            {% if not image_url %}
+            <div class="img_title">Check the NASA image of the day on your birthday!</div>
+            <form class='form_container' method="POST" action="/">
+                <div class="submit_form_container">
+                    <input class="date_btn" type="date" name="date" required>
+                    <button class='submit_btn' type="submit" role="button"><span>Submit</span></button>
+                </div>
+            </form>
+            {% endif %}
+            {% if image_url %}
+            <div class="birthday_flex_container">
+                <div>
+                    <div class="img_title">This is the NASA image on your birthday!<br>Check another date</div>
+                    <form class='form_container' method="POST" action="/">
+                        <input class="date_btn" type="date" name="date" required>
+                        <button class='submit_btn' type="submit" role="button"><span>Submit</span></button>
+                    </form>
+                </div>
+                <div>
+                    <!-- <div style="display: flex; justify-content: center; margin: 16px;"> -->
+                    <img class="birthday_img" src="{{ image_url }}" alt="NASA Image of the Day">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+
+</html>
