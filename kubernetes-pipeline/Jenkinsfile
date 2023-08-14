@@ -25,15 +25,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo 'Cloning from GitHub...'
-                sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
-                dir("${Pipeline_Path}/NASA/") {
-                    sh "cp /var/lib/jenkins/.env ."
-                    echo 'Building Docker image...'
-                    sh "docker build -t ${App_Package} ."
-                    echo 'Pushing to Docker Hub...'
-                    sh "docker push ${App_Package}"
-                }
+                echo 'Building...'
+                sh "bash ${Pipeline_Path}/scripts/build.sh"
             }
         }
         stage('Test') {
@@ -66,11 +59,10 @@ pipeline {
             steps {
                 echo 'Uploading chart package to GCP bucket...'
                 sh "gsutil cp ${Pipeline_Path}/chart/nasa-app-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
-                dir("${Pipeline_Path}/scripts/") {
-                    sh "cp /var/lib/jenkins/.env ."
-                    sh "bash DockerHub_VCS.sh ${Repository}"
-                    sh "bash DockerImages_VCS.sh ${Repository}"
-                }
+                echo 'Managing Docker...'
+                sh "cp /var/lib/jenkins/.env ${Pipeline_Path}/scripts/.env"
+                sh "bash ${Pipeline_Path}/scripts/DockerHub_VCS.sh ${Repository}"
+                sh "bash ${Pipeline_Path}/scripts/DockerImages_VCS.sh ${Repository}"
             }
         }
     }
