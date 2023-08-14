@@ -62,9 +62,11 @@ pipeline {
                 echo 'Uploading chart package to GCP bucket...'
                 sh "gsutil cp ${Pipeline_Path}/chart/nasa-app-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
                 echo 'Managing Docker...'
-                sh "cp /var/lib/jenkins/.env ${Pipeline_Path}/scripts/.env"
-                sh "bash ${Pipeline_Path}/scripts/DockerHub_VCS.sh ${Repository}"
-                sh "bash ${Pipeline_Path}/scripts/DockerImages_VCS.sh ${Repository}"
+                dir("${Pipeline_Path}/scripts/") {
+                    sh "cp /var/lib/jenkins/.env ."
+                    sh "bash DockerHub_VCS.sh ${Repository}"
+                    sh "bash DockerImages_VCS.sh ${Repository}"
+                }
             }
         }
     }
