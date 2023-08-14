@@ -25,6 +25,8 @@ pipeline {
         }
         stage('Build') {
             steps {
+                echo 'Cloning from GitHub...'
+                sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
                 echo 'Building...'
                 sh "bash ${Pipeline_Path}/scripts/build.sh"
             }

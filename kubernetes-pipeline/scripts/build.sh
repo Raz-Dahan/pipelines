@@ -1,5 +1,5 @@
-echo 'Cloning from GitHub...'
-sh 'git clone https://github.com/Raz-Dahan/pipelines.git'
+#!/bin/bash
+
 cd ${Pipeline_Path}/NASA/
 cp /var/lib/jenkins/.env .
 echo 'Building Docker image...'
