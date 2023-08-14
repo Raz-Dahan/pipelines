@@ -9,6 +9,7 @@ docker push ${App_Package}
 
 echo 'Packaging helm...'
 cd ${Pipeline_Path}/chart/
-
 bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
 helm package .
+echo 'Uploading chart package to GCP bucket...'
+gsutil cp ${Pipeline_Path}/chart/nasa-app-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}

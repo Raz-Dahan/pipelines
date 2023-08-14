@@ -59,8 +59,6 @@ pipeline {
         }
         stage('Registries Handaling') {
             steps {
-                echo 'Uploading chart package to GCP bucket...'
-                sh "gsutil cp ${Pipeline_Path}/chart/nasa-app-1.${BUILD_NUMBER}.0.tgz  gs://${GCP_Bucket}"
                 echo 'Managing Docker...'
                 dir("${Pipeline_Path}/scripts/") {
                     sh "cp /var/lib/jenkins/.env ."
