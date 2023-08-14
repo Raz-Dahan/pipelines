@@ -22,12 +22,6 @@ run_tests() {
     fi
 }
 
-# Building
-helm_build() {
-    echo 'Getting chart yamls...'
-    bash ${Pipeline_Path}/scripts/get_chart_yamls.sh
-    helm package .
-}
 
 # Deploying
 helm_deployment() {
@@ -50,7 +44,6 @@ main() {
     cd ${Pipeline_Path}/chart
     if [[ $# -eq 1 && "$1" == "--test" ]]; then
         CLUSTER_TIER="test-cluster"
-        helm_build
         helm_deployment
         run_tests
     elif [[ $# -eq 0 ]]; then
