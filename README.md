@@ -1,7 +1,7 @@
 # Pipelines
 Streamlined CI/CD Pipelines using different platforms
 
-### Kubernetes Pipeline
+### [Kubernetes Pipeline](kubernetes-pipeline)
 ☸️ Kubernetes pipeline that integrates Docker, Docker Compose, Helm, Terraform, Prometheus, and Grafana without any downtime and with separate stage for addintional steps to ensure maximum efficiency and reliability.
 
 **What sets our Kubernetes Pipeline apart:**
@@ -10,13 +10,13 @@ Streamlined CI/CD Pipelines using different platforms
 - 📊 **Monitoring Nirvana**: Gain deep insights into your application's performance with Prometheus and visualize the data using Grafana dashboards.
 - 🌐 **End-to-End Integration**: Seamlessly combine all the previous pipelines into a unified, end-to-end CI/CD process that maximizes efficiency and reduces errors.
 
-### Docker Compose Pipeline
+### [Docker Compose Pipeline](docker-compose-pipeline)
 🚢 Orchestrate complex multi-container applications with Docker Compose pipeline. Simplify development and deployment.
 
-### Docker Pipeline
+### [Docker Pipeline](docker-pipeline)
 🐳 Build, test, and deploy using Docker pipeline. containerize code for consistency across environments.
 
-### Ansible Pipeline
+### [Ansible Pipeline](ansible-pipeline)
 🤖 Automate your deployment with Ansible pipeline.
 
 
