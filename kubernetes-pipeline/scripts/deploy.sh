@@ -18,6 +18,7 @@ run_tests() {
         echo 'Tests passed.'
     else
         echo 'Tests failed.'
+        curl 'https://us-central1-named-signal-392608.cloudfunctions.net/mark_failures'
         exit 1
     fi
 }
