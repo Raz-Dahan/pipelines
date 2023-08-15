@@ -45,5 +45,5 @@ spec:
           image: razdahan31/nasa-app:{{ .Values.VER }}
           command: ["sh", "-c"]
           args:
-            - "curl http://"
+            - "curl http://nasa-service.default.svc.cluster.local"
       restartPolicy: Never
