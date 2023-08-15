@@ -42,8 +42,8 @@ spec:
               done;
       containers:
         - name: http-test
-          image: razdahan31/nasa-ap:{{ .Values.VER }}
+          image: razdahan31/nasa-app:{{ .Values.VER }}
           command: ["sh", "-c"]
           args:
-            - "curl http://nasa-service.default.svc.cluster.local"
+            - "curl http://"
       restartPolicy: Never
