@@ -14,7 +14,7 @@ usage() {
 
 # Testing
 run_tests() {
-    if helm test chart; then
+    if helm test $Chart_Name; then
         echo 'Tests passed.'
     else
         echo 'Tests failed.'
