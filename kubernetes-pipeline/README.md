@@ -15,7 +15,7 @@ In today's fast-paced software development landscape, CI/CD has become an essent
 
 ## How It Works
 
-![Pipleline's Diargam](Assets/Diagram.png)
+![Pipleline's Diargam](https://raz-jpgs-archive.s3.eu-central-1.amazonaws.com/diagram_k8s.jpg)
 
 
 My project provides a practical example of how these tools come together in a seamless workflow:
@@ -30,9 +30,30 @@ My project provides a practical example of how these tools come together in a se
 4. Prometheus and Grafana provide real-time monitoring, helping ensure application health and performance.
 5. The infrastructure can be managed as code using Terraform, enabling easy replication and scaling.
 
-## Technical Details
+## Pipeline Setup
 
-For a detailed guide on how to set up and operate this CI/CD pipeline, please refer to the [Operational README](Assets/Operational-README.md). The operational README provides step-by-step instructions, prerequisites, and explanations for each component of the project.
+1. Install [Jenkins](https://www.jenkins.io/doc/book/installing/linux/#debianubuntu "Install Jenkins"), [Docker](https://docs.docker.com/engine/install/ubuntu/ "Install Docker"), [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html "Install AWS CLI"), [gcloud CLI](https://cloud.google.com/sdk/docs/install "Install gcloud CLI") and [Helm](https://helm.sh/docs/intro/install/ "Install Helm") on Ubuntu server.
+
+2. ADD .env file to your jenkins server at `/var/lib/jenkins`, configured as this:
+   ```
+   API_KEY=<your API key>   # Remove this line if you're not using an API in your Flask application
+   DOCKER_USERNAME=<your Docker Hub username>
+   DOCKER_PASSWORD=<your Docker Hub password>
+   ```
+
+3. Launch Jenkins on your server and set new pipeline job.
+
+4. Change variables in all relavent files.
+
+5. Build and deploy the project by running the Jenkins pipeline job.
+
+6. Access the Flask application by entering the public IP address of the Load balancer service in your web browser.
+
+7. To access the monitoring tools go to gcp-console > kubernetes engine > "servicess & ingress" >  prometheus-grafana > edit > change "metadata: type" to LoadBalancer, then enter these Grafana cardentials:
+```
+	username: admin
+	password: prom-operator
+```
 
 ## Contact
 
